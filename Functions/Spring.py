@@ -64,7 +64,7 @@ def violate(value):
     :param value: constraint function value
     :return: penalty value
     """
-    return 0 if value <= 0 else value
+    return 0 if value <= 0 else value ** 2
 
 
 def spring_get_lb():
@@ -98,6 +98,17 @@ s_g4 = s_constraint_g4()
 
 fs_g4 = lambda x: s_g4(*x.flatten())
 
+def spring_fitness_function(solution):
+    fx = fs_func(solution)
+
+    fx += violate(fs_g1(solution)) + \
+          violate(fs_g2(solution)) + \
+          violate(fs_g3(solution)) + \
+          violate(fs_g4(solution))
+
+    return fx
+
+'''
 class Spring(Problem):
     """
     Spring Tension Design Problem
@@ -123,4 +134,4 @@ class Spring(Problem):
               violate(fs_g3(solution)) + \
               violate(fs_g4(solution))
 
-        return fx
+        return fx'''

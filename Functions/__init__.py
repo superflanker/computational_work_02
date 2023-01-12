@@ -1,2 +1,2 @@
-from .Spring import Spring, spring_get_lb, spring_get_ub
-from .PressureVessel import PressureVessel, pressure_vessel_get_lb, pressure_vessel_get_ub
+from .Spring import spring_fitness_function, spring_get_lb, spring_get_ub
+from .PressureVessel import pressure_fitness_function, pressure_vessel_get_lb, pressure_vessel_get_ub

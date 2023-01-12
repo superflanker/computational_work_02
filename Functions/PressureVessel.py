@@ -67,7 +67,7 @@ def violate(value):
     :param value: constraint function value
     :return: penalty value
     """
-    return 0 if value <= 0 else value
+    return 0 if value <= 0 else value ** 2
 
 
 def pressure_vessel_get_lb():
@@ -98,7 +98,18 @@ p_g4 = p_constraint_g4()
 
 fp_g4 = lambda x: p_g4(*x.flatten())
 
-class PressureVessel(Problem):
+def pressure_fitness_function(solution):
+
+    fx = fp_func(solution)
+
+    fx += violate(fp_g1(solution)) + \
+          violate(fp_g2(solution)) + \
+          violate(fp_g3(solution)) + \
+          violate(fp_g4(solution))
+
+    return fx
+
+'''class PressureVessel(Problem):
     """
     Pressure Vessel Design Problem
     """
@@ -123,4 +134,4 @@ class PressureVessel(Problem):
               violate(fp_g3(solution)) + \
               violate(fp_g4(solution))
 
-        return fx
+        return fx'''

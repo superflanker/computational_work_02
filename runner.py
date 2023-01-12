@@ -1,8 +1,14 @@
 # statistical tests - https://github.com/citiususc/stac
-from Functions import *
-from Solvers import *
-from mealpy.swarm_based import PSO
+import json
 import numpy as np
+from mealpy.evolutionary_based import ES, EP, GA
+from mealpy.swarm_based import BeesA, FFA, PSO
+from Functions import spring_fitness_function, \
+    pressure_fitness_function, \
+    spring_get_lb, \
+    spring_get_ub, \
+    pressure_vessel_get_lb, \
+    pressure_vessel_get_ub
 
 s_lb = spring_get_lb()
 
@@ -12,78 +18,112 @@ p_lb = pressure_vessel_get_lb()
 
 p_ub = pressure_vessel_get_ub()
 
-spring = Spring(lb=s_lb, ub=s_ub, minmax='min')
+epochs = 100
 
-pressure_vessel = PressureVessel(lb=p_lb, ub=p_ub, minmax='min')
+pop_size = 100
 
-epochs = 50
+runs = 100
 
-pop_size = 50
+problems = {"spring_problem": {"lb": spring_get_lb(),
+                               "ub": spring_get_ub(),
+                               "minmax": "min",
+                               "fit_func": spring_fitness_function,
+                               "verbose": False,
+                               "name": "Spring Tension Design",
+                               "save_population": True,
+                               "log_to": None},
+            "pressure_vessel_problem": {"lb": pressure_vessel_get_lb(),
+                                        "ub": pressure_vessel_get_ub(),
+                                        "minmax": "min",
+                                        "verbose": False,
+                                        "fit_func": pressure_fitness_function,
+                                        "name": "Pressure Vessel Design",
+                                        "save_population": True,
+                                        "log_to": None}}
 
-runs = 50
+algorithms = {"solve_ep": EP.LevyEP,
+              "solve_es": ES.OriginalES,
+              "solve_ga": GA.BaseGA,
+              "solve_beesa": BeesA.OriginalBeesA,
+              "solve_ffa": FFA.OriginalFFA,
+              "solve_pso": PSO.OriginalPSO}
 
-results = dict()
+with open("tuning.json", "r") as f:
+    alg_params = json.load(f)
 
-for seed in range(1, runs+1):
+best_fits = {"spring_problem": {"solve_ep": 1e6,
+                                "solve_es": 1e6,
+                                "solve_ga": 1e6,
+                                "solve_beesa": 1e6,
+                                "solve_ffa": 1e6,
+                                "solve_pso": 1e6},
+             "pressure_vessel_problem": {"solve_ep": 1e6,
+                                         "solve_es": 1e6,
+                                         "solve_ga": 1e6,
+                                         "solve_beesa": 1e6,
+                                         "solve_ffa": 1e6,
+                                         "solve_pso": 1e6}}
 
-    best_position, best_fitness = solve_ep(seed, spring, epochs, pop_size)
-    if "SpringEP" not in results:
-        results["SpringEP"] = list()
-    results["SpringEP"].append([best_position, best_fitness])
 
-    best_position, best_fitness = solve_es(seed, spring, epochs, pop_size)
-    if "SpringES" not in results:
-        results["SpringES"] = list()
-    results["SpringES"].append([best_position, best_fitness])
+best_fits_history = {"spring_problem": {"solve_ep": {},
+                                        "solve_es": {},
+                                        "solve_ga": {},
+                                        "solve_beesa": {},
+                                        "solve_ffa": {},
+                                        "solve_pso": {}},
+                     "pressure_vessel_problem": {"solve_ep": {},
+                                                 "solve_es": {},
+                                                 "solve_ga": {},
+                                                 "solve_beesa": {},
+                                                 "solve_ffa": {},
+                                                 "solve_pso": {}}}
 
-    best_position, best_fitness = solve_ga(seed, spring, epochs, pop_size)
-    if "SpringGA" not in results:
-        results["SpringGA"] = list()
-    results["SpringGA"].append([best_position, best_fitness])
+fit_results = {"spring_problem": {"solve_ep": [],
+                                  "solve_es": [],
+                                  "solve_ga": [],
+                                  "solve_beesa": [],
+                                  "solve_ffa": [],
+                                  "solve_pso": []},
+               "pressure_vessel_problem": {"solve_ep": [],
+                                           "solve_es": [],
+                                           "solve_ga": [],
+                                           "solve_beesa": [],
+                                           "solve_ffa": [],
+                                           "solve_pso": []}}
 
-    best_position, best_fitness = solve_beesa(seed, spring, epochs, pop_size)
-    if "SpringBEESA" not in results:
-        results["SpringBEESA"] = list()
-    results["SpringBEESA"].append([best_position, best_fitness])
+for seed in range(1, runs + 1):
+    print("Seed: {:d}".format(seed))
+    for problem in alg_params:
+        current_problem = problems[problem]
+        print("Problem: {:s}".format(problem))
+        for solver_name in algorithms:
+            np.random.seed(seed)
+            params = alg_params[problem][solver_name]
+            model = algorithms[solver_name](**params)
+            best_position, best_fitness = model.solve(current_problem)
+            fit_results[problem][solver_name].append([best_position.tolist(), best_fitness])
 
-    best_position, best_fitness = solve_ffa(seed, spring, epochs, pop_size)
-    if "SpringFFA" not in results:
-        results["SpringFFA"] = list()
-    results["SpringFFA"].append([best_position, best_fitness])
+            if best_fitness <= best_fits[problem][solver_name]:
+                best_fits[problem][solver_name] = best_fitness
+                best_fits_history[problem][solver_name] = {"global_best": model.history.list_global_best,
+                                                           "current_best": model.history.list_current_best,
+                                                           "global_worst": model.history.list_global_worst,
+                                                           "current_worst": model.history.list_current_worst,
+                                                           "epoch_time": model.history.list_epoch_time,
+                                                           "global_best_fit": model.history.list_global_best_fit,
+                                                           "current_best_fit": model.history.list_current_best_fit,
+                                                           "diversity": model.history.list_diversity,
+                                                           "exploitation": model.history.list_exploitation,
+                                                           "exploration": model.history.list_exploration,
+                                                           "population": model.history.list_population}
 
-    best_position, best_fitness = solve_pso(seed, spring, epochs, pop_size)
-    if "SpringPSO" not in results:
-        results["SpringPSO"] = list()
-    results["SpringPSO"].append([best_position, best_fitness])
+# saving best models
+with open("results/best_fits.json", "w") as f:
+    json.dump(best_fits, f, indent=4)
 
-    best_position, best_fitness = solve_ep(seed, pressure_vessel, epochs, pop_size)
-    if "PressureEP" not in results:
-        results["PressureEP"] = list()
-    results["PressureEP"].append([best_position, best_fitness])
+with open("results/fit_results.json", "w") as f:
+    json.dump(fit_results, f, indent=4)
 
-    best_position, best_fitness = solve_es(seed, pressure_vessel, epochs, pop_size)
-    if "PressureES" not in results:
-        results["PressureES"] = list()
-    results["PressureES"].append([best_position, best_fitness])
-
-    best_position, best_fitness = solve_ga(seed, pressure_vessel, epochs, pop_size)
-    if "PressureGA" not in results:
-        results["PressureGA"] = list()
-    results["PressureGA"].append([best_position, best_fitness])
-
-    best_position, best_fitness = solve_beesa(seed, pressure_vessel, epochs, pop_size)
-    if "PressureBEESA" not in results:
-        results["PressureBEESA"] = list()
-    results["PressureBEESA"].append([best_position, best_fitness])
-
-    best_position, best_fitness = solve_ffa(seed, pressure_vessel, epochs, pop_size)
-    if "PressureFFA" not in results:
-        results["PressureFFA"] = list()
-    results["PressureFFA"].append([best_position, best_fitness])
-
-    best_position, best_fitness = solve_pso(seed, pressure_vessel, epochs, pop_size)
-    if "PressurePSO" not in results:
-        results["PressurePSO"] = list()
-    results["PressurePSO"].append([best_position, best_fitness])
-
-print(results)
+for problem in best_fits_history:
+    for solver_name in best_fits_history[problem]:
+        model = best_fits_history[problem][solver_name]

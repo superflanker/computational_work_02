@@ -11,23 +11,41 @@ Evolutionary Algorithms Solvers based on mealpy package
 
 from mealpy.evolutionary_based import ES, EP, GA
 from mealpy.swarm_based import BeesA, FFA, PSO
+from mealpy.utils import io
 import numpy as np
+
 
 def solve_ep(seed,
              problem,
              epochs,
+             lb,
+             ub,
+             save_to,
              pop_size,
              bout_size=0.1):
 
     """
     Evolutionary Programming
     :param seed: random seed
-    :param problem: problem class
+    :param problem: problem fitness function (constrained version)
     :param epochs: epochs
+    :param lb: lower bounds
+    :param ub: upper bounds
+    :param save_to: save to file
     :param pop_size: population size
     :param bout_size: percentage of child agents implement tournament selection
     :return: best_solution, best_fitness
     """
+
+    problem_dict = {
+        "fit_func": problem,
+        "lb": lb,
+        "ub": ub,
+        "minmax": "min",
+        "verbose": False,
+        "save_population": True,  # Then you can't draw the trajectory chart
+        "log_to": None
+    }
 
     np.random.seed(seed)
 
@@ -35,24 +53,41 @@ def solve_ep(seed,
                       pop_size=pop_size,
                       bout_size=bout_size)
 
-    best_position, best_fitness = model.solve(problem=problem)
+    best_position, best_fitness = model.solve(problem=problem_dict)
+    io.save_model(model, "results/" + save_to)
     return best_position, best_fitness
 
 def solve_es(seed,
              problem,
              epochs,
+             lb,
+             ub,
+             save_to,
              pop_size,
              lamda=0.5):
 
     """
     Evolutionary Strategy
     :param seed: random seed
-    :param problem: problem class
+    :param problem: problem fitness function (constrained version)
     :param epochs: epochs
+    :param lb: lower bounds
+    :param ub: upper bounds
+    :param save_to: save to file
     :param pop_size: population size
     :param lamda: Percentage of child agents evolving in the next generation
     :return: best_position, best_fitness
     """
+
+    problem_dict = {
+        "fit_func": problem,
+        "lb": lb,
+        "ub": ub,
+        "minmax": "min",
+        "verbose": False,
+        "save_population": True,  # Then you can't draw the trajectory chart
+        "log_to": None
+    }
 
     np.random.seed(seed)
 
@@ -60,12 +95,16 @@ def solve_es(seed,
                           pop_size=pop_size,
                           lamda=lamda)
 
-    best_position, best_fitness = model.solve(problem=problem)
+    best_position, best_fitness = model.solve(problem=problem_dict)
+    io.save_model(model, "results/" + save_to)
     return best_position, best_fitness
 
 def solve_ga(seed,
              problem,
              epochs,
+             lb,
+             ub,
+             save_to,
              pop_size,
              pc=0.95,
              pm=0.025):
@@ -73,13 +112,26 @@ def solve_ga(seed,
     """
     Genetic Algorithm
     :param seed: random seed
-    :param problem: problem class
+    :param problem: problem fitness function (constrained version)
     :param epochs: epochs
+    :param lb: lower bounds
+    :param ub: upper bounds
+    :param save_to: save to file
     :param pop_size: population size
     :param pc: cross-over probability
     :param pm: mutation probability
     :return: best_position, best_fitness
     """
+
+    problem_dict = {
+        "fit_func": problem,
+        "lb": lb,
+        "ub": ub,
+        "minmax": "min",
+        "verbose": False,
+        "save_population": True,  # Then you can't draw the trajectory chart
+        "log_to": None
+    }
 
     np.random.seed(seed)
 
@@ -88,13 +140,16 @@ def solve_ga(seed,
                       pc=pc,
                       pm=pm)
 
-    best_position, best_fitness = model.solve(problem=problem)
+    best_position, best_fitness = model.solve(problem=problem_dict)
+    io.save_model(model, "results/" + save_to)
     return best_position, best_fitness
-
 
 def solve_beesa(seed,
                 problem,
                 epochs,
+                lb,
+                ub,
+                save_to,
                 pop_size,
                 selected_site_ratio=0.5,
                 elite_site_ratio=0.4,
@@ -106,8 +161,11 @@ def solve_beesa(seed,
     """
     Bees Algorithm
     :param seed: random seed
-    :param problem: problem class
+    :param problem: problem fitness function (constrained version)
     :param epochs: epochs
+    :param lb: lower bounds
+    :param ub: upper bounds
+    :param save_to: save to file
     :param pop_size: population size
     :param selected_site_ratio: hyperparameter
     :param elite_site_ratio: hyperparameter
@@ -117,6 +175,16 @@ def solve_beesa(seed,
     :param dance_reduction: hyperparameter
     :return: best_position, best_fitness
     """
+
+    problem_dict = {
+        "fit_func": problem,
+        "lb": lb,
+        "ub": ub,
+        "minmax": "min",
+        "verbose": False,
+        "save_population": True,  # Then you can't draw the trajectory chart
+        "log_to": None
+    }
 
     np.random.seed(seed)
 
@@ -129,12 +197,16 @@ def solve_beesa(seed,
                                 dance_radius=dance_radius,
                                 dance_reduction=dance_reduction)
 
-    best_position, best_fitness = model.solve(problem=problem)
+    best_position, best_fitness = model.solve(problem=problem_dict)
+    io.save_model(model, "results/" + save_to)
     return best_position, best_fitness
 
 def solve_ffa(seed,
               problem,
               epochs,
+              lb,
+              ub,
+              save_to,
               pop_size,
               gamma=0.001,
               beta_base=2,
@@ -146,8 +218,11 @@ def solve_ffa(seed,
     """
     Firefly Algorithm
     :param seed: random seed
-    :param problem: problem class
+    :param problem: problem fitness function (constrained version)
     :param epochs: epochs
+    :param lb: lower bounds
+    :param ub: upper bounds
+    :param save_to: save to file
     :param pop_size: population size
     :param gamma: Light Absorption Coefficient
     :param beta_base: Attraction Coefficient Base Value
@@ -157,6 +232,16 @@ def solve_ffa(seed,
     :param exponent: Exponent
     :return: best_position, best_fitness
     """
+
+    problem_dict = {
+        "fit_func": problem,
+        "lb": lb,
+        "ub": ub,
+        "minmax": "min",
+        "verbose": False,
+        "save_population": True,  # Then you can't draw the trajectory chart
+        "log_to": None
+    }
 
     np.random.seed(seed)
 
@@ -169,12 +254,16 @@ def solve_ffa(seed,
                             delta=delta,
                             exponent=exponent)
 
-    best_position, best_fitness = model.solve(problem=problem)
+    best_position, best_fitness = model.solve(problem=problem_dict)
+    io.save_model(model, "results/" + save_to)
     return best_position, best_fitness
 
 def solve_pso(seed,
               problem,
               epochs,
+              lb,
+              ub,
+              save_to,
               pop_size,
               c1=2.05,
               c2=2.05,
@@ -184,8 +273,11 @@ def solve_pso(seed,
     """
     Particle Swarm Optimization
     :param seed: random seed
-    :param problem: problem class
+    :param problem: problem fitness function (constrained version)
     :param epochs: epochs
+    :param lb: lower bounds
+    :param ub: upper bounds
+    :param save_to: save to file
     :param pop_size: population size
     :param c1: local coefficient
     :param c2: global coefficient
@@ -193,6 +285,16 @@ def solve_pso(seed,
     :param w_max: weight max of bird
     :return: best_position, best_fitness
     """
+
+    problem_dict = {
+        "fit_func": problem,
+        "lb": lb,
+        "ub": ub,
+        "minmax": "min",
+        "verbose": False,
+        "save_population": True,  # Then you can't draw the trajectory chart
+        "log_to": None
+    }
 
     np.random.seed(seed)
 
@@ -203,5 +305,6 @@ def solve_pso(seed,
                             w_min=w_min,
                             w_max=w_max)
 
-    best_position, best_fitness = model.solve(problem=problem)
+    best_position, best_fitness = model.solve(problem=problem_dict)
+    io.save_model(model, "results/" + save_to)
     return best_position, best_fitness
