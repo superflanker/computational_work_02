@@ -1,6 +1,16 @@
-# statistical tests - https://github.com/citiususc/stac
+"""
+Computational Work 02 - Evolutionary Computation
+Authors: Augusto Mathias Adams - augusto.adams@ufpr.br - GRR20172143
+         Caio Phillipe Mizerkowski - caiomizerkowski@gmail.com - GRR20166403
+         Christian Piltz Araújo - christian0294@yahoo.com.br - GRR20172197
+         Vinícius Eduardo dos Reis - eduardo.reis02@gmail.com - GRR20175957
+
+Optimization Runner
+"""
+
 import json
 import numpy as np
+import pickle
 from mealpy.evolutionary_based import ES, EP, GA
 from mealpy.swarm_based import BeesA, FFA, PSO
 from Functions import spring_fitness_function, \
@@ -18,11 +28,15 @@ p_lb = pressure_vessel_get_lb()
 
 p_ub = pressure_vessel_get_ub()
 
-epochs = 100
+# common
+
+epochs = 50
 
 pop_size = 100
 
-runs = 100
+runs = 30
+
+# problems
 
 problems = {"spring_problem": {"lb": spring_get_lb(),
                                "ub": spring_get_ub(),
@@ -41,6 +55,8 @@ problems = {"spring_problem": {"lb": spring_get_lb(),
                                         "save_population": True,
                                         "log_to": None}}
 
+# algorithm mapping
+
 algorithms = {"solve_ep": EP.LevyEP,
               "solve_es": ES.OriginalES,
               "solve_ga": GA.BaseGA,
@@ -48,8 +64,12 @@ algorithms = {"solve_ep": EP.LevyEP,
               "solve_ffa": FFA.OriginalFFA,
               "solve_pso": PSO.OriginalPSO}
 
-with open("tuning.json", "r") as f:
+# tuning parameters - given by tuning.py
+
+with open("results/tuning.json", "r") as f:
     alg_params = json.load(f)
+
+# storage variables
 
 best_fits = {"spring_problem": {"solve_ep": 1e6,
                                 "solve_es": 1e6,
@@ -65,18 +85,18 @@ best_fits = {"spring_problem": {"solve_ep": 1e6,
                                          "solve_pso": 1e6}}
 
 
-best_fits_history = {"spring_problem": {"solve_ep": {},
-                                        "solve_es": {},
-                                        "solve_ga": {},
-                                        "solve_beesa": {},
-                                        "solve_ffa": {},
-                                        "solve_pso": {}},
-                     "pressure_vessel_problem": {"solve_ep": {},
-                                                 "solve_es": {},
-                                                 "solve_ga": {},
-                                                 "solve_beesa": {},
-                                                 "solve_ffa": {},
-                                                 "solve_pso": {}}}
+best_fits_history = {"spring_problem": {"solve_ep": [],
+                                        "solve_es": [],
+                                        "solve_ga": [],
+                                        "solve_beesa": [],
+                                        "solve_ffa": [],
+                                        "solve_pso": []},
+                     "pressure_vessel_problem": {"solve_ep": [],
+                                                 "solve_es": [],
+                                                 "solve_ga": [],
+                                                 "solve_beesa": [],
+                                                 "solve_ffa": [],
+                                                 "solve_pso": []}}
 
 fit_results = {"spring_problem": {"solve_ep": [],
                                   "solve_es": [],
@@ -91,6 +111,8 @@ fit_results = {"spring_problem": {"solve_ep": [],
                                            "solve_ffa": [],
                                            "solve_pso": []}}
 
+# at last, the optimization run
+
 for seed in range(1, runs + 1):
     print("Seed: {:d}".format(seed))
     for problem in alg_params:
@@ -102,28 +124,18 @@ for seed in range(1, runs + 1):
             model = algorithms[solver_name](**params)
             best_position, best_fitness = model.solve(current_problem)
             fit_results[problem][solver_name].append([best_position.tolist(), best_fitness])
-
             if best_fitness <= best_fits[problem][solver_name]:
                 best_fits[problem][solver_name] = best_fitness
-                best_fits_history[problem][solver_name] = {"global_best": model.history.list_global_best,
-                                                           "current_best": model.history.list_current_best,
-                                                           "global_worst": model.history.list_global_worst,
-                                                           "current_worst": model.history.list_current_worst,
-                                                           "epoch_time": model.history.list_epoch_time,
-                                                           "global_best_fit": model.history.list_global_best_fit,
-                                                           "current_best_fit": model.history.list_current_best_fit,
-                                                           "diversity": model.history.list_diversity,
-                                                           "exploitation": model.history.list_exploitation,
-                                                           "exploration": model.history.list_exploration,
-                                                           "population": model.history.list_population}
+                best_fits_history[problem][solver_name] = model.history.list_population
 
-# saving best models
+# saving best fits
 with open("results/best_fits.json", "w") as f:
     json.dump(best_fits, f, indent=4)
 
+# saving fit results
 with open("results/fit_results.json", "w") as f:
     json.dump(fit_results, f, indent=4)
 
-for problem in best_fits_history:
-    for solver_name in best_fits_history[problem]:
-        model = best_fits_history[problem][solver_name]
+with open("results/best_fits_history.pkl", "w") as f:
+
+    pickle.dump(best_fits_history, f)

@@ -1,3 +1,13 @@
+"""
+Computational Work 02 - Evolutionary Computation
+Authors: Augusto Mathias Adams - augusto.adams@ufpr.br - GRR20172143
+         Caio Phillipe Mizerkowski - caiomizerkowski@gmail.com - GRR20166403
+         Christian Piltz Araújo - christian0294@yahoo.com.br - GRR20172197
+         Vinícius Eduardo dos Reis - eduardo.reis02@gmail.com - GRR20175957
+
+Algorithm Tuner
+"""
+
 import numpy as np
 import json
 from mealpy.tuner import Tuner
@@ -119,7 +129,7 @@ for problem in problems:
         print(f"Best solution after re-solve: {best_position}")
         print(f"Best fitness after re-solve: {best_fitness}")
 
-with open("tuning.json", "w") as f:
+with open("results/tuning.json", "w") as f:
     json.dump(best_parameters, f, indent=4)
 
 
