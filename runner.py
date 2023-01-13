@@ -10,7 +10,6 @@ Optimization Runner
 
 import json
 import numpy as np
-import pickle
 from mealpy.evolutionary_based import ES, EP, GA
 from mealpy.swarm_based import BeesA, FFA, PSO
 from Functions import spring_fitness_function, \
@@ -138,4 +137,4 @@ with open("results/fit_results.json", "w") as f:
 
 with open("results/best_fits_history.pkl", "w") as f:
 
-    pickle.dump(best_fits_history, f)
+    np.dump(f, best_fits_history)

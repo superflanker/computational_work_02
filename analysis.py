@@ -101,6 +101,12 @@ def ordinary_statistics(fit_results):
                                               s['fmean'],
                                               s['fmax'],
                                               s['fstd']])
+        stats[problem]['significance'] = friedman_test(fit_results[problem]['solver_ep'],
+                                                       fit_results[problem]['solver_es'],
+                                                       fit_results[problem]['solver_ga'],
+                                                       fit_results[problem]['solver_beesa'],
+                                                       fit_results[problem]['solver_ffa'],
+                                                       fit_results[problem]['solver_pso'])
 
     return stats
 
