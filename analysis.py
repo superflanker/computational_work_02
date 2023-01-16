@@ -24,6 +24,32 @@ problem_desc = {'spring_problem': 'Spring Tension Design',
                 'pressure_vessel_problem': 'Pressure Vessel Design'}
 
 
+def fit_results_cleanup(fit_results):
+    """
+    Results Cleanup
+    :param fit_results: raw results
+    :return: cleaned results
+    """
+    new_fit_results = list()
+    for node in fit_results:
+        new_fit_results.append(node[1])
+    return new_fit_results
+
+
+def population_cleanup(population):
+    min_max_mean = {"min": [],
+                    "max": [],
+                    "avg": []}
+    for i in range(0, len(population)):
+        pop_data = list()
+        for j in range(0, len(population[i])):
+            pop_data.append(population[i][j][1][0])
+        min_max_mean["min"].append(np.min(pop_data))
+        min_max_mean["max"].append(np.max(pop_data))
+        min_max_mean["avg"].append(np.mean(pop_data))
+    return min_max_mean
+
+
 def friedman_test(sol0,
                   sol1,
                   sol2,
@@ -87,37 +113,29 @@ def ordinary_statistics(fit_results):
         stats[problem] = dict()
         stats[problem]['desc'] = problem_desc[problem]
         stats[problem]['results'] = list()
+        solver_data = dict()
         for solver in fit_results[problem]:
-            s = min_max_avg_std(fit_results[problem][solver])
+            data = fit_results_cleanup(fit_results[problem][solver])
+            solver_data[solver] = data
+            s = min_max_avg_std(data)
             stats[problem]['results'].append([alg_desc[solver],
                                               s['fmin'],
                                               s['favg'],
-                                              s['fmean'],
+                                              s['fmedian'],
                                               s['fmax'],
                                               s['fstd']])
-        stats[problem]['significance'] = friedman_test(fit_results[problem]['solver_ep'],
-                                                       fit_results[problem]['solver_es'],
-                                                       fit_results[problem]['solver_ga'],
-                                                       fit_results[problem]['solver_beesa'],
-                                                       fit_results[problem]['solver_ffa'],
-                                                       fit_results[problem]['solver_pso'])
+
+        stats[problem]['significance'] = friedman_test(solver_data['solve_ep'],
+                                                       solver_data['solve_es'],
+                                                       solver_data['solve_ga'],
+                                                       solver_data['solve_beesa'],
+                                                       solver_data['solve_ffa'],
+                                                       solver_data['solve_pso'])
+
+        with open("results/" + problem + "_fit_results.json", "w") as f:
+            json.dump(solver_data, f, indent=4)
 
     return stats
-
-
-def min_max_mean_data(best_fits_history):
-    stats = dict()
-    for problem in best_fits_history:
-        stats[problem] = dict()
-        stats[problem]['desc'] = problem_desc[problem]
-        stats[problem]['results'] = dict()
-        stats[problem]['results']['max'] = list()
-        stats[problem]['results']['min'] = list()
-        stats[problem]['results']['mean'] = list()
-        for solver in best_fits_history[problem]:
-            history_points = best_fits_history[problem][solver]['population']
-            print(json.dump(history_points, indent=4))
-            exit()
 
 
 # collecting results
@@ -136,4 +154,18 @@ for problem in problem_desc:
         model = io.load_model(filename)
         best_fits_history[problem][solver] = model
 
-print(fit_results)
+stats = ordinary_statistics(fit_results)
+
+with open("results/stats.json", "w") as f:
+    json.dump(stats, f, indent=4)
+
+
+population_stats = dict()
+
+for problem in best_fits_history:
+    population_stats[problem] = dict()
+    for solver in best_fits_history[problem]:
+        population_stats[problem][solver] = population_cleanup(best_fits_history[problem][solver].history.list_population)
+
+with open("results/population_history.json", "w") as f:
+    json.dump(population_stats, f, indent=4)
