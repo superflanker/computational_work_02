@@ -1,0 +1,93 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{booktabs,makecell,tabularx}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{mathptmx} % assumes new font selection scheme installed
+\usepackage{multicol}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\restylefloat{table}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+\title{Swarm and Evolutionary Based Algorithms used for Optimization}
+\author{
+	\IEEEauthorblockN{Augusto Mathias Adams\IEEEauthorrefmark{1}, Caio Phillipe Mizerkowski\IEEEauthorrefmark{2}, Christian Piltz Araújo\IEEEauthorrefmark{3} and Vinicius Eduardo dos Reis\IEEEauthorrefmark{4}}\\
+	\IEEEauthorblockA{\IEEEauthorrefmark{1}GRR20172143, augusto.adams@ufpr.br, \IEEEauthorrefmark{2}GRR20166403, caiomizerkowski@gmail.com,\\ \IEEEauthorrefmark{3}GRR20172197, christian0294@yahoo.com.br, \IEEEauthorrefmark{4}GRR20175957, eduardo.reis02@gmail.com}
+}
+
+\maketitle
+
+
+\begin{abstract}
+    In this paper, a study of evolution and swarm based algorithms is presented,
+    using two classical engineering problems: \textit{Spring Tension} and \textit{Pressure Vessel
+    Designs}. The test code for the problems was made using the \textit{Python Language},
+    version 3.10 and uses \textit{MealPy} package, version 2.5.1,  to provide the algorithms.
+    Thre algorithms were randomly chosen from a vaste list from MealPy algorithms:
+    \textit{Evolutionary Programming (LevyEP)}, \textit{Evolution Strategies (OriginalES)} and
+    \textit{Genetic Algorithm (BaseGA)} from \textit{evolutionary\_based} subpackage;
+    \textit{Bees Algorithm (OriginalBeesA)}, \textit{Firefly Algorithm (OriginalFFA)} and
+    \textit{Particle Swarm Optimization (OriginalPSO)} from \textit{swarm\_based} subpackage.
+    Each problem was modeled using \textit{SciPy} package, with constraints implemented as
+    \textit{penalty functions}. Each algorithm were optimized separately to extract the best
+    solutions from each problem using the \textit{MealPy\s} \textit{Tuner} utility.
+    The results, however, are dependant of algorithm and problem presented but from
+    similarity test using Friedman's Chi-Squared test, it would be suffice to say that using any
+    of the tested algorithm will produce similar results in these two optimization problems.
+\end{abstract}
+
+\begin{IEEEkeywords}
+	Optimization Methods, Evolutionary Programming, Evolutionary and Swarm Based Strategies.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\label{sec:introduction}
+
+The study comprizes two great areas of artificial intelligence: Evolutionary
+and Swarm Inteligence algorithms.
+
+Evolution: From Jason Brownlee's \textit{``Clever Algorithms''} -
+\textit{Evolutionary Algorithms belong to the Evolutionary Computation
+field of study concerned with computational methods inspired by the process
+and mechanisms of biological evolution. The process of evolution by
+means of natural selection (descent with modification) was proposed by
+Darwin to account for the variety of life and its suitability (adaptive
+fit) for its environment. The mechanisms of evolution describe how
+evolution actually takes place through the modification and propagation
+of genetic material (proteins). Evolutionary Algorithms are concerned
+with investigating computational systems that resemble simplified ver-
+sions of the processes and mechanisms of evolution toward achieving
+the effects of these processes and mechanisms, namely the development
+of adaptive systems. Additional subject areas that fall within the realm
+of Evolutionary Computation are algorithms that seek to exploit the
+properties from the related fields of Population Genetics, Population
+Ecology, Coevolutionary Biology, and Developmental Biology.}
+
+Swarm Optimization: From Jason Brownlee's \textit{``Clever Algorithms''} -
+\textit{Swarm intelligence is the study of computational systems inspired by
+the ‘collective intelligence’. Collective Intelligence emerges through the
+cooperation of large numbers of homogeneous agents in the environment.
+Examples include schools of fish, flocks of birds, and colonies of ants.
+Such intelligence is decentralized, self-organizing and distributed through
+out an environment. In nature such systems are commonly used to
+solve problems such as effective foraging for food, prey evading, or
+colony re-location. The information is typically stored throughout the
+participating homogeneous agents, or is stored or communicated in
+the environment itself such as through the use of pheromones in ants,
+dancing in bees, and proximity in fish and birds.}

@@ -10,7 +10,6 @@ Analysis Formatter
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 import json
 
@@ -19,7 +18,12 @@ def latex_results_table(results,
                         desc,
                         problem):
 
-    column_names = ["Algorithm", "Min F", "Mean F", "Median F", "Max F", "StdDev F"]
+    column_names = ["Algorithm",
+                    "Min F",
+                    "Mean F",
+                    "Median F",
+                    "Max F",
+                    "StdDev F"]
 
     df = pd.DataFrame(results,
                       columns=column_names)
@@ -97,6 +101,7 @@ problem_desc = {'spring_problem': 'Spring Tension Design',
 
 for problem in population_data:
     for solver in population_data[problem]:
+
         min = population_data[problem][solver]['min']
         max = population_data[problem][solver]['max']
         mean = population_data[problem][solver]['avg']
@@ -105,28 +110,87 @@ for problem in population_data:
 
         x = np.linspace(1, len(min), len(min))
 
-        plt.plot(x, min, label="Min values")
+        plt.plot(x, np.log(min), label="Min values")
 
-        plt.plot(x, mean, label="Mean values")
+        plt.plot(x, np.log(mean), label="Mean values")
 
-        plt.plot(x, max, label="Max values")
+        plt.plot(x, np.log(max), label="Max values")
 
-        plt.yscale('log')
+        #: plt.yscale('log')
 
         plt.title(alg_desc[solver] + " - " + problem_desc[problem])
 
         plt.xlabel("Epochs")
 
-        plt.ylabel("Obj. Fun Values")
+        plt.ylabel("Obj. Fun Values(log)")
 
         plt.legend()
 
         plt.grid()
 
-        plt.savefig("latex/images/" + problem + "_" + solver + ".jpg", dpi=600)
+        plt.savefig("latex/images/" + problem + "_" + solver + ".png", dpi=600)
 
-with open("results/fit_results.json", "r") as f:
+        content = """\\begin{figure}[H]
+        \\centering
+        \\caption{Convergence lines for """ + alg_desc[solver] + " - " + problem_desc[problem] + """}
+        \\label{fig:""" + problem + "_" + solver + """}
+        \\includegraphics[scale=0.5]{images/""" + problem + "_" + solver +  """.png}
+        \\end{figure}
+        """
+        with open("latex/includes/" + problem + "_" + solver + ".tex", "w") as f:
+            f.write(content)
+
+with open("results/spring_problem_fit_results.json", "r") as f:
     fit_results = json.load(f)
 
-for problem in fit_results:
+#: spring problem boxplots
+
+fit_keys = [alg_desc[x] for x in fit_results]
+
+fit_values = fit_results.values()
+
+plt.close('all')
+
+plt.boxplot(fit_values, labels=fit_keys)
+
+plt.title("Spring Tension Design - Boxplot")
+
+plt.savefig("latex/images/spring_problem_boxplot.png", dpi=600)
+
+content = """\\begin{figure}[H]
+\\centering
+\\caption{Boxplot for Spring Tension Design}
+\\label{fig:spring_tension_design_boxplot}
+\\includegraphics[scale=0.5]{images/spring_problem_boxplot.png}
+\\end{figure}
+"""
+with open("latex/includes/spring_problem_boxplot.tex", "w") as f:
+    f.write(content)
+
+with open("results/pressure_vessel_problem_fit_results.json", "r") as f:
+    fit_results = json.load(f)
+
+#: spring problem boxplots
+
+fit_keys = [alg_desc[x] for x in fit_results]
+
+fit_values = fit_results.values()
+
+plt.close('all')
+
+plt.boxplot(fit_values, labels=fit_keys)
+
+plt.title("Pressure Vessel Design - Boxplot")
+
+plt.savefig("latex/images/pressure_vessel_problem_boxplot.png", dpi=600)
+
+content = """\\begin{figure}[H]
+\\centering
+\\caption{Boxplot for Pressure Vessel Design}
+\\label{fig:pressure_vessel_design_boxplot}
+\\includegraphics[scale=0.5]{images/pressure_vessel_problem_boxplot.png}
+\\end{figure}
+"""
+with open("latex/includes/pressure_vessel_problem_boxplot.tex", "w") as f:
+    f.write(content)
 
