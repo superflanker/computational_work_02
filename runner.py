@@ -10,8 +10,11 @@ Optimization Runner
 
 import json
 import numpy as np
+
 from mealpy.evolutionary_based import ES, EP, GA
 from mealpy.swarm_based import BeesA, FFA, PSO
+from mealpy.utils import io
+
 from Functions import spring_fitness_function, \
     pressure_fitness_function, \
     spring_get_lb, \
@@ -19,21 +22,34 @@ from Functions import spring_fitness_function, \
     pressure_vessel_get_lb, \
     pressure_vessel_get_ub
 
-s_lb = spring_get_lb()
 
-s_ub = spring_get_ub()
+def create_starting_positions(rseed,
+                              n_dims,
+                              pop_size,
+                              lb,
+                              ub):
+    """
+    Initial population
+    :param rseed: random seed
+    :param n_dims: problem dimention
+    :param pop_size: population size
+    :param lb: lower bound
+    :param ub: upper bound
+    :return: initial population
+    """
+    rng = np.random.default_rng(rseed)
+    random_extractions = rng.random((pop_size, n_dims))
+    for i in range(0, n_dims):
+        random_extractions[:, i] = (ub[i] - lb[i]) * random_extractions[:, i] + lb[i]
+    return random_extractions
 
-p_lb = pressure_vessel_get_lb()
-
-p_ub = pressure_vessel_get_ub()
 
 # common
-
-epochs = 50
+epochs = 100
 
 pop_size = 100
 
-runs = 30
+runs = 100
 
 # problems
 
@@ -69,6 +85,9 @@ with open("results/tuning.json", "r") as f:
     alg_params = json.load(f)
 
 # storage variables
+
+n_dims = {"spring_problem": 3,
+          "pressure_vessel_problem": 4}
 
 best_fits = {"spring_problem": {"solve_ep": 1e6,
                                 "solve_es": 1e6,
@@ -117,15 +136,26 @@ for seed in range(1, runs + 1):
     for problem in alg_params:
         current_problem = problems[problem]
         print("Problem: {:s}".format(problem))
+
+        initial_positions = create_starting_positions(seed,
+                                                      n_dims[problem],
+                                                      pop_size,
+                                                      current_problem["lb"],
+                                                      current_problem["ub"])
+
         for solver_name in algorithms:
+            print(solver_name)
             np.random.seed(seed)
             params = alg_params[problem][solver_name]
             model = algorithms[solver_name](**params)
-            best_position, best_fitness = model.solve(current_problem)
-            fit_results[problem][solver_name].append([best_position.tolist(), best_fitness])
+            best_position, best_fitness = model.solve(current_problem,
+                                                      starting_positions=initial_positions)
+
+            fit_results[problem][solver_name].append([best_position.tolist(),
+                                                      best_fitness])
             if best_fitness <= best_fits[problem][solver_name]:
-                best_fits[problem][solver_name] = best_fitness
-                best_fits_history[problem][solver_name] = model.history.list_population
+                best_fits[problem][solver_name] = float(best_fitness)
+                best_fits_history[problem][solver_name] = model
 
 # saving best fits
 with open("results/best_fits.json", "w") as f:
@@ -135,6 +165,8 @@ with open("results/best_fits.json", "w") as f:
 with open("results/fit_results.json", "w") as f:
     json.dump(fit_results, f, indent=4)
 
-with open("results/best_fits_history.pkl", "w") as f:
-
-    np.dump(f, best_fits_history)
+for problem in best_fits_history:
+    for solver in best_fits_history[problem]:
+        model = best_fits_history[problem][solver]
+        filename = "results/best_" + problem + "_" + solver
+        io.save_model(model, filename)

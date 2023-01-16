@@ -11,15 +11,7 @@ Result Analysis
 import json
 import numpy as np
 from scipy import stats
-from mealpy.evolutionary_based import ES, EP, GA
-from mealpy.swarm_based import BeesA, FFA, PSO
-
-from Functions import spring_fitness_function, \
-    pressure_fitness_function, \
-    spring_get_lb, \
-    spring_get_ub, \
-    pressure_vessel_get_lb, \
-    pressure_vessel_get_ub
+from mealpy.utils import io
 
 alg_desc = {"solve_ep": "EP",
             "solve_es": "ES",
@@ -30,6 +22,7 @@ alg_desc = {"solve_ep": "EP",
 
 problem_desc = {'spring_problem': 'Spring Tension Design',
                 'pressure_vessel_problem': 'Pressure Vessel Design'}
+
 
 def friedman_test(sol0,
                   sol1,
@@ -62,6 +55,7 @@ def ordinary_statistics(fit_results):
     :param fit_results: the final results for each problerm-algorithm pair
     :return: dict the stats compiled by problem
     """
+
     def min_max_avg_std(data):
         """
         Computes min, max, avg and std from results
@@ -126,15 +120,20 @@ def min_max_mean_data(best_fits_history):
             exit()
 
 
-
 # collecting results
-with open("results/best_fits.json", "w") as f:
+with open("results/best_fits.json", "r") as f:
     best_fits = json.load(f)
 
-with open("results/fit_results.json", "w") as f:
+with open("results/fit_results.json", "r") as f:
     fit_results = json.load(f)
 
-with open("results/best_fits_history.json", "w") as f:
-    best_fits_history = json.load(f)
+best_fits_history = dict()
 
-print(best_fits_history)
+for problem in problem_desc:
+    best_fits_history[problem] = dict()
+    for solver in alg_desc:
+        filename = "results/best_" + problem + "_" + solver
+        model = io.load_model(filename)
+        best_fits_history[problem][solver] = model
+
+print(fit_results)
