@@ -20,7 +20,11 @@ from Functions import spring_fitness_function, \
     spring_get_lb, \
     spring_get_ub, \
     pressure_vessel_get_lb, \
-    pressure_vessel_get_ub
+    pressure_vessel_get_ub, \
+    spring_function, \
+    spring_get_literature_solution, \
+    pressure_vessel_function, \
+    pressure_vessel_get_literature_solution
 
 
 def create_starting_positions(rseed,
@@ -49,7 +53,19 @@ epochs = 100
 
 pop_size = 100
 
-runs = 100
+runs = 1
+
+spring_default_solution = spring_get_literature_solution()
+
+print(spring_function(spring_default_solution))
+
+print(spring_fitness_function(spring_default_solution))
+
+pressure_vessel_default_solution = pressure_vessel_get_literature_solution()
+
+print(pressure_vessel_function(pressure_vessel_default_solution))
+
+print(pressure_fitness_function(pressure_vessel_default_solution))
 
 # problems
 
@@ -150,6 +166,8 @@ for seed in range(1, runs + 1):
             model = algorithms[solver_name](**params)
             best_position, best_fitness = model.solve(current_problem,
                                                       starting_positions=initial_positions)
+
+            print(best_fitness)
 
             fit_results[problem][solver_name].append([best_position.tolist(),
                                                       best_fitness])

@@ -7,59 +7,57 @@ Authors: Augusto Mathias Adams - augusto.adams@ufpr.br - GRR20172143
          Vinícius Eduardo dos Reis - eduardo.reis02@gmail.com - GRR20175957
 
 Pressure Vessel Design Problem
+optimal value: 5896.94890
+x* = (0.780956, 0.386318, 40.433956, 198.504889)
 """
 
 import numpy as np
-from sympy import var, exp, cos, pi, euler, sqrt, latex, var, diff, simplify, lambdify
-from mealpy.utils.problem import Problem
 
-def pressure_vessel_function():
+def pressure_vessel_get_literature_solution():
+    return [0.780956, 0.386318, 40.433956, 198.504889]
+
+
+def pressure_vessel_function(x):
     """
     Function to minimize
-    :return: python function
+    :return: float
     """
-    x1, x2, x3, x4 = var("x1 x2 x3 x4")
-    function = 0.6224 * x1 * x2 * x3 + \
-               1.7781 * x2 * (x3 ** 2) + \
-               3.1661 * (x1 ** 2) * x4 + \
-               19.84 * (x1 ** 2) * x3
-    return lambdify([x1, x2, x3, x4], function, "numpy")
+    return 0.6224 * x[0] * x[2] * x[3] + \
+           1.7781 * x[1] * (x[2] ** 2) + \
+           3.1661 * (x[0] ** 2) * x[3] + \
+           19.84 * (x[0] ** 2) * x[2]
 
-def p_constraint_g1():
+
+def p_constraint_g1(x):
     """
     Constraing g1
-    :return: python function
+    :return: float
     """
-    x1, x2, x3, x4 = var("x1 x2 x3 x4")
-    function = -x1 + 0.0193 * x3
-    return lambdify([x1, x2, x3, x4], function, "numpy")
+    return -x[0] + 0.0193 * x[2]
 
-def p_constraint_g2():
+
+def p_constraint_g2(x):
     """
     Constraint g2
-    :return: python function
+    :return: float
     """
-    x1, x2, x3, x4 = var("x1 x2 x3 x4")
-    function = -x2 + 0.00954 * x3
-    return lambdify([x1, x2, x3, x4], function, "numpy")
+    return -x[1] + 0.00954 * x[2]
 
-def p_constraint_g3():
+
+def p_constraint_g3(x):
     """
     Constraint g3
-    :return: python function
+    :return: float
     """
-    x1, x2, x3, x4 = var("x1 x2 x3 x4")
-    function = -np.pi * (x3 ** 2) * x4 - (4/3) * np.pi * (x3 ** 2) + 1296000
-    return lambdify([x1, x2, x3, x4], function, "numpy")
+    return -np.pi * (x[2] ** 2) * x[3] - (4/3) * np.pi * (x[2] ** 3) + 1296000
 
-def p_constraint_g4():
+
+def p_constraint_g4(x):
     """
     Constraint g4
-    :return: python function
+    :return: float
     """
-    x1, x2, x3, x4 = var("x1 x2 x3 x4")
-    function = x4 - 240
-    return lambdify([x1, x2, x3, x4], function, "numpy")
+    return x[3] - 240
 
 def violate(value):
     """
@@ -67,71 +65,25 @@ def violate(value):
     :param value: constraint function value
     :return: penalty value
     """
-    return 0 if value <= 0 else value ** 2
+    return 0 if value <= 0 else 1
 
 
 def pressure_vessel_get_lb():
-    return [0.0, 0.0, 10.0, 10.0]
+    return [0.3, 0.3, 10.0, 10.0]
 
 
 def pressure_vessel_get_ub():
-    return [99.0, 99.0, 200.0, 200.0]
+    return [99.0 * 0.0625, 99.0 * 0.0625, 200.0, 240.0]
 
-
-p_func = pressure_vessel_function()
-
-fp_func = lambda x: p_func(*x.flatten())
-
-p_g1 = p_constraint_g1()
-
-fp_g1 = lambda x: p_g1(*x.flatten())
-
-p_g2 = p_constraint_g2()
-
-fp_g2 = lambda x: p_g2(*x.flatten())
-
-p_g3 = p_constraint_g3()
-
-fp_g3 = lambda x: p_g3(*x.flatten())
-
-p_g4 = p_constraint_g4()
-
-fp_g4 = lambda x: p_g4(*x.flatten())
 
 def pressure_fitness_function(solution):
 
-    fx = fp_func(solution)
+    fx = pressure_vessel_function(solution)
 
-    fx += violate(fp_g1(solution)) + \
-          violate(fp_g2(solution)) + \
-          violate(fp_g3(solution)) + \
-          violate(fp_g4(solution))
+    fx += violate(p_constraint_g1(solution)) + \
+          violate(p_constraint_g2(solution)) + \
+          violate(p_constraint_g3(solution)) + \
+          violate(p_constraint_g4(solution))
 
     return fx
 
-'''class PressureVessel(Problem):
-    """
-    Pressure Vessel Design Problem
-    """
-
-    def __init__(self, lb, ub, minmax, name="PressureVesselDesign", **kwargs):
-        """
-        Constructor
-        :param lb: lower bound
-        :param ub: upper bound
-        :param minmax: max/min problem
-        :param name: Problem Name
-        :param kwargs: extra args
-        """
-        super().__init__(lb, ub, minmax, **kwargs)
-        self.name = name
-
-    def fit_func(self, solution):
-        fx = fp_func(solution)
-
-        fx += violate(fp_g1(solution)) + \
-              violate(fp_g2(solution)) + \
-              violate(fp_g3(solution)) + \
-              violate(fp_g4(solution))
-
-        return fx'''

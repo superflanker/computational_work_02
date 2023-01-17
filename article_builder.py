@@ -15,25 +15,26 @@ with open("latex/includes/header.tex", "r") as f:
     content += f.read()
 
 #: spring problem
-content += "\\section{Spring Tension Design}\n\n"
-content += "\\label{sec:spring_problem}"
+content += "\\subsection{Spring Tension Design}\n\n"
+content += "\\label{ssubec:spring_problem}"
 
-content += "\\subsection{Evolutionary Algorithms}\n\n"
-content += "\\label{subsec:spring_problem_evolutionary_based}\n\n"
 
-content += "\\subsection{Swarm Based Algorithms}\n\n"
-content += "\\label{subsec:spring_problem_swarm_based}\n\n"
+content += "\\subsubsection{Evolutionary Algorithms}\n\n"
+content += "\\label{subsubsec:spring_problem_evolutionary_based}\n\n"
+
+content += "\\subsubsection{Swarm Based Algorithms}\n\n"
+content += "\\label{subsubsec:spring_problem_swarm_based}\n\n"
 
 # pressure vessel problem
 
-content += "\\section{Pressure Vessel Design}\n\n"
-content += "\\label{sec:pressure_vessel_problem}"
+content += "\\subsection{Pressure Vessel Design}\n\n"
+content += "\\label{subsec:pressure_vessel_problem}"
 
-content += "\\subsection{Evolutionary Algorithms}\n\n"
-content += "\\label{subsec:pressure_vessel_problem_evolutionary_based}\n\n"
+content += "\\subsubsection{Evolutionary Algorithms}\n\n"
+content += "\\label{subsubsec:pressure_vessel_problem_evolutionary_based}\n\n"
 
-content += "\\subsection{Swarm Based Algorithms}\n\n"
-content += "\\label{subsec:pressure_vessel_problem_swarm_based}\n\n"
+content += "\\subsubsection{Swarm Based Algorithms}\n\n"
+content += "\\label{subsubsec:pressure_vessel_problem_swarm_based}\n\n"
 
 # Friedman's test
 

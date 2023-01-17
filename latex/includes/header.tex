@@ -46,7 +46,7 @@
     \textit{Particle Swarm Optimization (OriginalPSO)} from \textit{swarm\_based} subpackage.
     Each problem was modeled using \textit{SciPy} package, with constraints implemented as
     \textit{penalty functions}. Each algorithm were optimized separately to extract the best
-    solutions from each problem using the \textit{MealPy\s} \textit{Tuner} utility.
+    solutions from each problem using the \textit{MealPy}'s \textit{Tuner} utility.
     The results, however, are dependant of algorithm and problem presented but from
     similarity test using Friedman's Chi-Squared test, it would be suffice to say that using any
     of the tested algorithm will produce similar results in these two optimization problems.
@@ -56,14 +56,17 @@
 	Optimization Methods, Evolutionary Programming, Evolutionary and Swarm Based Strategies.
 \end{IEEEkeywords}
 
-\section{Introduction}
-\label{sec:introduction}
+\section{Definitions}
+\label{sec:definitions}
 
-The study comprizes two great areas of artificial intelligence: Evolutionary
-and Swarm Inteligence algorithms.
+The main objective of this paper is study evolutionary and swarm intelligence algorithms.
+We present the main concepts of these two algorithm's classes, along with the chosen algorithms
+definitions in this section. All citations made in this document are due to Swarm Intelligence classes
+and to \textit{MealPy}'s documentation, which points out the theoretical documentation for each
+implemented algorithm.
 
-Evolution: From Jason Brownlee's \textit{``Clever Algorithms''} -
-\textit{Evolutionary Algorithms belong to the Evolutionary Computation
+\textit{\textbf{Evolution}}: From Jason Brownlee's \textit{``Clever Algorithms''} -
+Evolutionary Algorithms belong to the Evolutionary Computation
 field of study concerned with computational methods inspired by the process
 and mechanisms of biological evolution. The process of evolution by
 means of natural selection (descent with modification) was proposed by
@@ -77,10 +80,10 @@ the effects of these processes and mechanisms, namely the development
 of adaptive systems. Additional subject areas that fall within the realm
 of Evolutionary Computation are algorithms that seek to exploit the
 properties from the related fields of Population Genetics, Population
-Ecology, Coevolutionary Biology, and Developmental Biology.}
+Ecology, Coevolutionary Biology, and Developmental Biology.
 
-Swarm Optimization: From Jason Brownlee's \textit{``Clever Algorithms''} -
-\textit{Swarm intelligence is the study of computational systems inspired by
+\textit{\textbf{Swarm Intelligence}}: From Jason Brownlee's \textit{``Clever Algorithms''} -
+Swarm intelligence is the study of computational systems inspired by
 the ‘collective intelligence’. Collective Intelligence emerges through the
 cooperation of large numbers of homogeneous agents in the environment.
 Examples include schools of fish, flocks of birds, and colonies of ants.
@@ -90,4 +93,100 @@ solve problems such as effective foraging for food, prey evading, or
 colony re-location. The information is typically stored throughout the
 participating homogeneous agents, or is stored or communicated in
 the environment itself such as through the use of pheromones in ants,
-dancing in bees, and proximity in fish and birds.}
+dancing in bees, and proximity in fish and birds.
+
+\textit{\textbf{Evolutionary Programming:}} From Jason Brownlee's \textit{``Clever Algorithms''} -
+Evolutionary Programming is a Global Optimization algorithm and is an instance of an Evolutionary
+Algorithm from the field of Evolutionary Computation. The approach is a sibling of other Evolutionary
+Algorithms such as the Genetic Algorithm, and Learning Classifier Systems. It is sometimes confused with Genetic
+Programming given the similarity in name, and more recently it shows a strong functional similarity to Evolution Strategies.
+Evolutionary Programming is inspired by the theory of evolution by means of natural selection. Specifically, the technique is inspired by
+macro-level or the species-level process of evolution (phenotype, hereditary, variation) and is not concerned with the genetic mechanisms of
+evolution (genome, chromosomes, genes, alleles).
+
+\textit{\textbf{Evolutionary Strategies:}} From Jason Brownlee's \textit{``Clever Algorithms''} -
+Evolution Strategies is a global optimization algorithm and is an instance of an Evolutionary Algorithm from the field of Evolutionary
+Computation. Evolution Strategies is a sibling technique to other Evolutionary Algorithms such as Genetic Algorithms (Section 3.2), Genetic
+Programming (Section 3.3), Learning Classifier Systems, and Evolutionary Programming. A popular descendant of
+the Evolution Strategies algorithm is the Covariance Matrix Adaptation Evolution Strategies (CMA-ES).
+
+\textit{\textbf{Genetic Algorithms:}} From Jason Brownlee's \textit{``Clever Algorithms''} -
+The Genetic Algorithm is an Adaptive Strategy and a Global Optimization technique. It is an Evolutionary Algorithm and belongs to the
+broader study of Evolutionary Computation. The Genetic Algorithm is a sibling of other Evolutionary Algorithms such as Genetic Programming,
+ Evolution Strategies, Evolutionary Programming, and Learning Classifier Systems. The Genetic Algorithm is a parent of a large number of variant techniques
+and sub-fields too numerous to list. The Genetic Algorithm is inspired by population genetics (including heredity and gene frequencies),
+and evolution at the population level, as well as the Mendelian understanding of the structure (such as chromosomes, genes, alleles) and mechanisms
+(such as recombination and mutation). This is the so-called new or modern synthesis of evolutionary biology.
+
+\textit{\textbf{Particle Swarm Optimization:}} From Jason Brownlee's \textit{``Clever Algorithms''} - Particle Swarm Optimization belongs to the field of
+Swarm Intelligence and Collective Intelligence and is a sub-field of Computational Intelligence. Particle Swarm Optimization is related to other Swarm Intelligence
+algorithms such as Ant Colony Optimization and it is a baseline algorithm for many variations, too numerous to list. It is inspired by the social foraging behavior
+of some animals such as flocking behavior of birds and the schooling behavior of fish.
+
+
+\textit{\textbf{Firefly Algorithm:}} From Xin-She Yang \textit{``Nature-Inspired Metaheuristic Algorithms''} -
+The flashing light of fireflies is an amazing sight in the summer sky in the tropical and temperate regions. There are about two thousand firefly
+species, and most fireflies produce short and rhythmic flashes. The pattern of flashes is often unique for a particular species. The flashing light is
+produced by a process of bioluminescence, and the true functions of suchsignaling systems are still being debated. However, two fundamental functions
+of such flashes are to attract mating partners (communication), and to attract potential prey. In addition, flashing may also serve as a protective warning
+mechanism to remind potential predators of the bitter taste of fireflies. The firefly algorithm tries to mimic the attractiveness of Fireflies and has three
+basic rules:
+
+\begin{itemize}
+    \item All fireflies are unisex so that one firefly will be attracted to other
+          fireflies regardless of their sex;
+    \item Attractiveness is proportional to the their brightness, thus for any two
+          flashing fireflies, the less brighter one will move towards the brighter
+          one. The attractiveness is proportional to the brightness and they
+          both decrease as their distance increases. If there is no brighter one
+          than a particular firefly, it will move randomly;
+    \item The brightness of a firefly is affected or determined by the landscape
+          of the objective function.
+\end{itemize}
+
+
+\textit{\textbf{Bees Algorithm:}} From Jason Brownlee's \textit{``Clever Algorithms''} -
+The Bees Algorithm beings to Bee Inspired Algorithms and the field of Swarm Intelligence, and more broadly the fields of Computational
+Intelligence and Metaheuristics. The Bees Algorithm is related to other Bee Inspired Algorithms, such as Bee Colony Optimization, and other
+Swarm Intelligence algorithms such as Ant Colony Optimization and Particle Swarm Optimization.
+It is inspired by the foraging behavior of honey bees. Honey bees collect nectar from vast areas around their hive (more than
+10 kilometers). Bee Colonies have been observed to send bees to collect nectar from flower patches relative to the amount of food available at
+each patch. Bees communicate with each other at the hive via a waggle dance that informs other bees in the hive as to the direction, distance,
+and quality rating of food sources.
+
+\section{Metodology}
+\label{sec:metodology}
+
+\subsection{Optimimzation Problem Selection}
+The two problems selected for this paper were \textit{Spring Tension Design} and \textit{Pressure Vessel Design}. Although it was simple
+to choose the first two problems from the computational work statements, the choice was more than justified because these aroblems are well
+known in the literature. Thus, the problem selection was driven by which has more that one source to compare results.
+
+\subsection{Programming Language}
+
+The chosen programming language for the test code was \textit{Python Language}, version 3.10, because it is an opensource language easy to
+program and has a huge amount of packages regarding artificial intelligence, genetic algorithms and swarm based algorithms. From these packages it
+was selected \textit{MealPy} package, version 2.5.1, because it comprises all the algorithm's classed tested in this paper.
+
+\subsection{Algorithm Selection}
+
+The algorithm selection was made in two steps: first, it was extracted simple version of the two classes (evolutionary and swarm based) and
+then it was used a simple shuffle using Python's \textit{random.shuffle} in a terminal - no script was required.
+
+\subsection{Model Parameters}
+
+For all models and problems, were selected the following parameters:
+
+\begin{itemize}
+    \item \textit{Runs}: 100 runs
+    \item \textit{Epochs}: 100 epochs
+    \item \textit{Population}: 100 initial points
+\end{itemize}
+
+The initial solutions were randomly selected using the same seed for all algorithms.
+
+\subsection{Model Tuning}
+
+
+\section{Results}
+\label{sec:results}
