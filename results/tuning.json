@@ -1,6 +1,52 @@
 {
     "spring_problem": {
         "solve_ep": {
+            "bout_size": 0.2,
+            "epoch": 100,
+            "pop_size": 100
+        },
+        "solve_es": {
+            "epoch": 100,
+            "lamda": 0.5,
+            "pop_size": 100
+        },
+        "solve_ga": {
+            "epoch": 100,
+            "pc": 0.75,
+            "pm": 0.2,
+            "pop_size": 100
+        },
+        "solve_beesa": {
+            "dance_radius": 0.075,
+            "dance_reduction": 0.5,
+            "elite_site_bee_ratio": 0.25,
+            "elite_site_ratio": 0.1,
+            "epoch": 100,
+            "pop_size": 100,
+            "selected_site_bee_ratio": 0.05,
+            "selected_site_ratio": 0.1
+        },
+        "solve_ffa": {
+            "alpha": 0.4,
+            "alpha_damp": 0.8,
+            "beta_base": 1.0,
+            "delta": 0.08,
+            "epoch": 100,
+            "exponent": 2,
+            "gamma": 0.001,
+            "pop_size": 100
+        },
+        "solve_pso": {
+            "c1": 1.0,
+            "c2": 3.0,
+            "epoch": 100,
+            "pop_size": 100,
+            "w_max": 1.2,
+            "w_min": 0.1
+        }
+    },
+    "pressure_vessel_problem": {
+        "solve_ep": {
             "bout_size": 0.07,
             "epoch": 100,
             "pop_size": 100
@@ -12,13 +58,13 @@
         },
         "solve_ga": {
             "epoch": 100,
-            "pc": 0.9,
+            "pc": 0.95,
             "pm": 0.2,
             "pop_size": 100
         },
         "solve_beesa": {
             "dance_radius": 0.025,
-            "dance_reduction": 0.99,
+            "dance_reduction": 0.5,
             "elite_site_bee_ratio": 0.25,
             "elite_site_ratio": 0.1,
             "epoch": 100,
@@ -28,12 +74,12 @@
         },
         "solve_ffa": {
             "alpha": 0.3,
-            "alpha_damp": 0.9,
+            "alpha_damp": 0.99,
             "beta_base": 1.5,
-            "delta": 0.1,
+            "delta": 0.06,
             "epoch": 100,
             "exponent": 2,
-            "gamma": 0.003,
+            "gamma": 0.001,
             "pop_size": 100
         },
         "solve_pso": {
@@ -41,13 +87,13 @@
             "c2": 2.0,
             "epoch": 100,
             "pop_size": 100,
-            "w_max": 0.51,
+            "w_max": 0.6,
             "w_min": 0.1
         }
     },
-    "pressure_vessel_problem": {
+    "pressure_vessel_problem_original": {
         "solve_ep": {
-            "bout_size": 0.16,
+            "bout_size": 0.07,
             "epoch": 100,
             "pop_size": 100
         },
@@ -58,13 +104,13 @@
         },
         "solve_ga": {
             "epoch": 100,
-            "pc": 0.7,
+            "pc": 0.95,
             "pm": 0.2,
             "pop_size": 100
         },
         "solve_beesa": {
-            "dance_radius": 0.1,
-            "dance_reduction": 0.99,
+            "dance_radius": 0.025,
+            "dance_reduction": 0.5,
             "elite_site_bee_ratio": 0.25,
             "elite_site_ratio": 0.1,
             "epoch": 100,
@@ -74,7 +120,7 @@
         },
         "solve_ffa": {
             "alpha": 0.3,
-            "alpha_damp": 0.9,
+            "alpha_damp": 0.99,
             "beta_base": 1.5,
             "delta": 0.06,
             "epoch": 100,
@@ -84,7 +130,7 @@
         },
         "solve_pso": {
             "c1": 1.0,
-            "c2": 1.0,
+            "c2": 2.0,
             "epoch": 100,
             "pop_size": 100,
             "w_max": 0.6,

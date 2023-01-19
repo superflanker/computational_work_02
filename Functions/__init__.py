@@ -10,6 +10,8 @@ from .Spring import spring_fitness_function, \
 from .PressureVessel import pressure_fitness_function, \
     pressure_vessel_get_lb, \
     pressure_vessel_get_ub, \
+    pressure_vessel_get_lb_original, \
+    pressure_vessel_get_ub_original, \
     pressure_vessel_get_literature_solution, \
     pressure_vessel_function, \
     p_constraint_g1, \

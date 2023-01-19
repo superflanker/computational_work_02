@@ -21,7 +21,8 @@ alg_desc = {"solve_ep": "EP",
             "solve_pso": "PSO"}
 
 problem_desc = {'spring_problem': 'Spring Tension Design',
-                'pressure_vessel_problem': 'Pressure Vessel Design'}
+                'pressure_vessel_problem': 'Pressure Vessel Design',
+                'pressure_vessel_problem_original': 'Pressure Vessel Design (Original)'}
 
 
 def fit_results_cleanup(fit_results):
@@ -154,10 +155,10 @@ for problem in problem_desc:
         model = io.load_model(filename)
         best_fits_history[problem][solver] = model
 
-stats = ordinary_statistics(fit_results)
+stats_s = ordinary_statistics(fit_results)
 
 with open("results/stats.json", "w") as f:
-    json.dump(stats, f, indent=4)
+    json.dump(stats_s, f, indent=4)
 
 
 population_stats = dict()

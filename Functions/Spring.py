@@ -10,8 +10,10 @@ optimal value: 0.012665
 x∗ = (0.051690, 0.356750, 11.287126)
 """
 
+
 def spring_get_literature_solution():
     return [0.051690, 0.356750, 11.287126]
+
 
 def spring_function(x):
     """
@@ -34,7 +36,7 @@ def s_constraint_g2(x):
     Constraint g2
     :return: float
     """
-    return ((4 * (x[1] ** 2) - x[0] * x[1]) / (12566.0 * ((x[0] ** 3) * x[1] - x[0] ** 4)))+ \
+    return ((4 * (x[1] ** 2) - x[0] * x[1]) / (12566.0 * ((x[0] ** 3) * x[1] - x[0] ** 4))) + \
         (1 / (5108.0 * (x[0] ** 2))) - 1.0
 
 

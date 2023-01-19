@@ -96,7 +96,8 @@ alg_desc = {"solve_ep": "EP",
             "solve_pso": "PSO"}
 
 problem_desc = {'spring_problem': 'Spring Tension Design',
-                'pressure_vessel_problem': 'Pressure Vessel Design'}
+                'pressure_vessel_problem': 'Pressure Vessel Design',
+                'pressure_vessel_problem_original': 'Pressure Vessel Design (Original)'}
 
 
 for problem in population_data:
@@ -192,5 +193,29 @@ content = """\\begin{figure}[H]
 \\end{figure}
 """
 with open("latex/includes/pressure_vessel_problem_boxplot.tex", "w") as f:
+    f.write(content)
+
+#: spring problem boxplots
+
+fit_keys = [alg_desc[x] for x in fit_results]
+
+fit_values = fit_results.values()
+
+plt.close('all')
+
+plt.boxplot(fit_values, labels=fit_keys)
+
+plt.title("Pressure Vessel Design (Original) - Boxplot")
+
+plt.savefig("latex/images/pressure_vessel_problem_original_boxplot.png", dpi=600)
+
+content = """\\begin{figure}[H]
+\\centering
+\\caption{Boxplot for Pressure Vessel Design}
+\\label{fig:pressure_vessel_design_original_boxplot}
+\\includegraphics[scale=0.5]{images/pressure_vessel_problem_original_boxplot.png}
+\\end{figure}
+"""
+with open("latex/includes/pressure_vessel_problem_original_boxplot.tex", "w") as f:
     f.write(content)
 

@@ -21,6 +21,8 @@ from Functions import spring_fitness_function, \
     spring_get_ub, \
     pressure_vessel_get_lb, \
     pressure_vessel_get_ub, \
+    pressure_vessel_get_lb_original, \
+    pressure_vessel_get_ub_original, \
     spring_function, \
     spring_get_literature_solution, \
     pressure_vessel_function, \
@@ -53,7 +55,7 @@ epochs = 100
 
 pop_size = 100
 
-runs = 1
+runs = 100
 
 spring_default_solution = spring_get_literature_solution()
 
@@ -84,7 +86,15 @@ problems = {"spring_problem": {"lb": spring_get_lb(),
                                         "fit_func": pressure_fitness_function,
                                         "name": "Pressure Vessel Design",
                                         "save_population": True,
-                                        "log_to": None}}
+                                        "log_to": None},
+            "pressure_vessel_problem_original": {"lb": pressure_vessel_get_lb_original(),
+                                                 "ub": pressure_vessel_get_ub_original(),
+                                                 "minmax": "min",
+                                                 "verbose": False,
+                                                 "fit_func": pressure_fitness_function,
+                                                 "name": "Pressure Vessel Design",
+                                                 "save_population": True,
+                                                 "log_to": None}}
 
 # algorithm mapping
 
@@ -103,7 +113,8 @@ with open("results/tuning.json", "r") as f:
 # storage variables
 
 n_dims = {"spring_problem": 3,
-          "pressure_vessel_problem": 4}
+          "pressure_vessel_problem": 4,
+          "pressure_vessel_problem_original": 4}
 
 best_fits = {"spring_problem": {"solve_ep": 1e6,
                                 "solve_es": 1e6,
@@ -116,7 +127,13 @@ best_fits = {"spring_problem": {"solve_ep": 1e6,
                                          "solve_ga": 1e6,
                                          "solve_beesa": 1e6,
                                          "solve_ffa": 1e6,
-                                         "solve_pso": 1e6}}
+                                         "solve_pso": 1e6},
+             "pressure_vessel_problem_original": {"solve_ep": 1e6,
+                                                  "solve_es": 1e6,
+                                                  "solve_ga": 1e6,
+                                                  "solve_beesa": 1e6,
+                                                  "solve_ffa": 1e6,
+                                                  "solve_pso": 1e6}}
 
 
 best_fits_history = {"spring_problem": {"solve_ep": [],
@@ -130,7 +147,13 @@ best_fits_history = {"spring_problem": {"solve_ep": [],
                                                  "solve_ga": [],
                                                  "solve_beesa": [],
                                                  "solve_ffa": [],
-                                                 "solve_pso": []}}
+                                                 "solve_pso": []},
+                     "pressure_vessel_problem_original": {"solve_ep": [],
+                                                          "solve_es": [],
+                                                          "solve_ga": [],
+                                                          "solve_beesa": [],
+                                                          "solve_ffa": [],
+                                                          "solve_pso": []}}
 
 fit_results = {"spring_problem": {"solve_ep": [],
                                   "solve_es": [],
@@ -143,7 +166,13 @@ fit_results = {"spring_problem": {"solve_ep": [],
                                            "solve_ga": [],
                                            "solve_beesa": [],
                                            "solve_ffa": [],
-                                           "solve_pso": []}}
+                                           "solve_pso": []},
+               "pressure_vessel_problem_original": {"solve_ep": [],
+                                                    "solve_es": [],
+                                                    "solve_ga": [],
+                                                    "solve_beesa": [],
+                                                    "solve_ffa": [],
+                                                    "solve_pso": []}}
 
 # at last, the optimization run
 

@@ -39,7 +39,7 @@
     using two classical engineering problems: \textit{Spring Tension} and \textit{Pressure Vessel
     Designs}. The test code for the problems was made using the \textit{Python Language},
     version 3.10 and uses \textit{MealPy} package, version 2.5.1,  to provide the algorithms.
-    Thre algorithms were randomly chosen from a vaste list from MealPy algorithms:
+    The algorithms were randomly chosen from a vast list from \textit{MealPy}'s algorithms:
     \textit{Evolutionary Programming (LevyEP)}, \textit{Evolution Strategies (OriginalES)} and
     \textit{Genetic Algorithm (BaseGA)} from \textit{evolutionary\_based} subpackage;
     \textit{Bees Algorithm (OriginalBeesA)}, \textit{Firefly Algorithm (OriginalFFA)} and
@@ -47,9 +47,10 @@
     Each problem was modeled using \textit{SciPy} package, with constraints implemented as
     \textit{penalty functions}. Each algorithm were optimized separately to extract the best
     solutions from each problem using the \textit{MealPy}'s \textit{Tuner} utility.
-    The results, however, are dependant of algorithm and problem presented but from
-    similarity test using Friedman's Chi-Squared test, it would be suffice to say that using any
-    of the tested algorithm will produce similar results in these two optimization problems.
+    The results, however, are dependant of algorithm and/or problem solved and the Friedman's chi
+    squared test for similarity make it noticeable because, although the values for best fits are
+    similar, running the same algorithm with different initial conditions does not converge to similar
+    values.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -154,28 +155,204 @@ It is inspired by the foraging behavior of honey bees. Honey bees collect nectar
 each patch. Bees communicate with each other at the hive via a waggle dance that informs other bees in the hive as to the direction, distance,
 and quality rating of food sources.
 
-\section{Metodology}
-\label{sec:metodology}
+\section{Methodology}
+\label{sec:methodology}
 
-\subsection{Optimimzation Problem Selection}
+\subsection{Optimization Problem Selection}
+\label{subsec:optimization-problem-selection}
 The two problems selected for this paper were \textit{Spring Tension Design} and \textit{Pressure Vessel Design}. Although it was simple
 to choose the first two problems from the computational work statements, the choice was more than justified because these aroblems are well
-known in the literature. Thus, the problem selection was driven by which has more that one source to compare results.
+known in the literature.
+Thus, the problem selection was driven by which has more than one source to compare results.
+
+\subsubsection{Spring Tension Design}
+\label{subsubsec:methodology-spring-tension-design}
+From \textit{Nature-Inspired Metaheuristic Algorithms - Xin-She Yang} -
+The design of a tension and compression spring is a well-known benchmark
+optimization problem.
+The main aim is to minimize the weight subject
+to constraints on deflection, stress, surge frequency and geometry. It involves
+three design variables: the wire diameter $x_1$ , coil diameter $x_2$ and
+number/length of the coil $x_3$.
+This problem can be summarized as:
+
+\begin{equation}
+    f (x) = x_1^2 x_2 (2 + x_3)
+\end{equation}
+
+subject to
+
+\begin{equation}
+    \begin{split}
+        g_1(x) = \frac{x_2^3 x_3}{71785 x_1^4} \leq 0\\
+        g_2(x) = \frac{4 x_2^2 - x_1 x_2}{12566 \left( x_1^3 x_2 - x_1^4\right)}\\
+        + \frac{1}{5108 x_1^2} -1 \leq 0\\
+        g_3(x) = 1 - \frac{140.45 x_1}{x_2^2 x_3} \leq 0\\
+        g_4 = \frac{x_1 + x_2}{1.5} - 1 \leq 0
+    \end{split}
+\end{equation}
+
+The original bounding limits of the variables, extracted from computational work
+statements, are:
+
+\begin{equation}
+    \begin{split}
+        0.05 \leq x_1 \leq 2.0\\
+        0.25 \leq x_2 \leq 1.3\\
+        2.0 \leq x_3 \leq 15.0
+    \end{split}
+\end{equation}
+
+\subsubsection{Pressure Vessel Design}
+\label{subsubsec:methodology-pressure-vessel-design}
+From \textit{Solving Design of Pressure Vessel Engineering
+Problem Using a Fruit Fly Optimization Algorithm - XIANTING KE et al} -
+A pressure vessel design model involves four decision variables: $x_1$ is defined
+thickness of the pressure vessel $T_s$ , $x_2$ stands for
+thickness of the head $T_H$ , $x_3$ represents inner radius of the
+vessel $R$ , and $x_4$ is on behalf of length of the vessel
+barring head $L$ , the total variables described as $( x_1 , x_2 , x_3 , x_4 )$.
+The objective function of the problem is to minimize the total cost, including
+the cost of material, forming, and welding.
+The general pressure vessel design optimization model is expressed as:
+
+\begin{equation}
+	\begin{split}
+        f(x) = 0.6224 x_1 x_3 x_4 + 1.7781 x_2 x_3^2 \\
+        + 3.1661 x_1^2 x_4 + 19.84 x_1^2 x_3
+	\end{split}
+\end{equation}
+
+subject to:
+
+\begin{equation}
+    \begin{split}
+        g_1(x) = - x_1 + 0.0193 x_3 \leq 0\\
+        g_2(x) = - x_2 + 0.00954 x_3 \leq 0\\
+        g_3(x) = - \pi x_3^2 x_4 -\frac{4}{3}\pi x_3^3 + 1296000 \leq 0\\
+        g_4(x) = x_4 -240 \leq 0\\
+    \end{split}
+\end{equation}
+
+The original bounding limits of the variables, extracted from computational work
+statements, are:
+
+\begin{equation}
+    \begin{split}
+        0 \leq x_1 \leq 99\\
+        0 \leq x_2 \leq 99\\
+        10 \leq x_3 \leq 200\\
+        10 \leq x_4 \leq 200\\
+    \end{split}
+\end{equation}
+
+For some reason these settings does not work at all with the selected optimizers, so
+some research in the literature \textit{Solving Design of Pressure Vessel Engineering
+Problem Using a Fruit Fly Optimization Algorithm - XIANTING KE et al} suggest the
+following bounding limits:
+
+\begin{equation}
+    \begin{split}
+        0.0625 \leq x_1 \leq 99 \times 0.0625\\
+        0.0625 \leq x_2 \leq 99 \times 0.0625\\
+        10 \leq x_3 \leq 200\\
+        10 \leq x_4 \leq 200
+    \end{split}
+\end{equation}
+
+But these settings produce many random, bizarre and noisy results in all selected optimizers. Then
+a proud-and-lame-homemade set of variable boundings comes in handy, obtained by tweaking the original
+boundings:
+
+\begin{equation}
+    \begin{split}
+        0.75 \leq x_1 \leq 0.8\\
+        0.35 \leq x_2 \leq 0.4\\
+        39.5 \leq x_3 \leq 41.0\\
+        195.0 \leq x_4 \leq 205.0\\
+    \end{split}
+\end{equation}
+
+It is not intended here to point out modeling errors of any kind, nor point out package
+errors made by the authors or ours, but the homemade bounding limits was necessary to
+reach the literature results.
+
+\subsection{Constraint Implementation}
+\label{subsec:methodology-constraint-implementation}
+The constraints that all problems are subjected were implemented as \textit{penalty functions},
+that is, it adds a high value when the constraint is not satisfied, zero otherwise. It is an optional requirement
+from computational work in question and is the recommended way to put constraints from \textit{MealPy}'s
+Manual.
 
 \subsection{Programming Language}
+\label{subsec:methodology-programming-language}
 
 The chosen programming language for the test code was \textit{Python Language}, version 3.10, because it is an opensource language easy to
-program and has a huge amount of packages regarding artificial intelligence, genetic algorithms and swarm based algorithms. From these packages it
-was selected \textit{MealPy} package, version 2.5.1, because it comprises all the algorithm's classed tested in this paper.
+program and has a huge amount of packages regarding artificial intelligence, genetic algorithms and swarm based algorithms.
+From these packages it was selected \textit{MealPy} package, version 2.5.1, because it comprises all the algorithm's classed tested in this paper.
 
 \subsection{Algorithm Selection}
+\label{subsec:methodology-algorithm-selection}
 
 The algorithm selection was made in two steps: first, it was extracted simple version of the two classes (evolutionary and swarm based) and
-then it was used a simple shuffle using
+then it was used a simple shuffle using Python's \textit{random.shuffle} in a terminal - no script was required.
 
-\subsection{Model Parameters}
+The chosen algorithms were:
 
-For all models and problems, were selected the following parameters:
+\begin{itemize}
+    \item \textit{\textbf{Evolution Based Algorithms: }} LevyEP (Evolutionary Programming),
+    OriginalES (Evolution Strategy) and BaseGA (Genetic Algorithm)
+    \item \textit{\textbf{Swarm Based Algorithms: }} OriginalBeesA (Bees Algorithm),
+    OriginalFFA (Original Firefly Algorithm) and OriginalPSO (Particle Swarm Optimization)
+\end{itemize}
+
+\subsection{Optimizer Tuning}
+\label{subsec:methodology-optimizer-tuning}
+
+The hyperparameters for each optimizer were tuned using the \textit{MealPy}'s \textit{Tuner} utility.
+It is a recomended procedure to tune hyperparameters for each optimizer and problem, according to
+\textit{MealPy}'s Manual.
+The \textit{Tuner} utility is a very simple grid search metaheuristic search tool
+that test each grid configuration for a specified oprimizer runs.
+Although simple, it is a very expensive procedure that took 2 days to complete. It was defined 10 runs for each
+configuration, with the following set of hyperparameter:
+
+\begin{itemize}
+    \item \textit{\textbf{Evolution Based Algorithms: }}
+        \subitem \textit{LevyEP:}
+            \subsubitem \textit{bout\_size (float)}: percentage of child agents implement tournament selection.
+        \subitem \textit{OriginalES:}
+            \subsubitem \textit{lamda (float)}: Percentage of child agents evolving in the next generation.
+        \subitem \textit{BaseGA:}
+            \subsubitem \textit{pc (float)}: cross-over probability
+            \subsubitem \textit{pm (float)}: mutation probability
+    \item \textit{\textbf{Swarm Based Algorithms: }}
+        \subitem \textit{OriginalBeesA:}
+            \subsubitem \textit{selected\_site\_ratio (float)}
+            \subsubitem \textit{elite\_site\_ratio (float)}
+            \subsubitem \textit{selected\_site\_bee\_ratio (float)}
+            \subsubitem \textit{elite\_site\_bee\_ratio (float)}
+            \subsubitem \textit{dance\_radius (float)}
+            \subsubitem \textit{dance\_reduction (float)}
+        \subitem \textit{OriginalFFA:}
+            \subsubitem \textit{gamma (float)}: Light Absorption Coefficient
+            \subsubitem \textit{beta\_base (float)}: Attraction Coefficient Base Value
+            \subsubitem \textit{alpha (float)}: Mutation Coefficient
+            \subsubitem \textit{alpha\_damp (float)}: Mutation Coefficient Damp Rate
+            \subsubitem \textit{delta (float)}: Mutation Step Size
+            \subsubitem \textit{exponent (int)}: Exponent
+        \subitem \textit{OriginalPSO:}
+            \subsubitem \textit{c1 (float)}: local coefficient
+            \subsubitem \textit{c2 (float)}: global coefficient
+            \subsubitem \textit{w\_min (float)}: Weight min of bird
+            \subsubitem \textit{w\_max (float)}: Weight max of bird
+
+\end{itemize}
+
+\subsection{Optimizer Parameters}
+\label{subsec:methodology-optimizer-parameters}
+
+For all optimizers and problems, were selected the following parameters:
 
 \begin{itemize}
     \item \textit{Runs}: 100 runs
@@ -184,9 +361,6 @@ For all models and problems, were selected the following parameters:
 \end{itemize}
 
 The initial solutions were randomly selected using the same seed for all algorithms.
-
-\subsection{Model Tuning}
-
 
 \section{Results}
 \label{sec:results}\subsection{Spring Tension Design}
