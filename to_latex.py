@@ -195,6 +195,10 @@ content = """\\begin{figure}[H]
 with open("latex/includes/pressure_vessel_problem_boxplot.tex", "w") as f:
     f.write(content)
 
+
+with open("results/pressure_vessel_problem_original_fit_results.json", "r") as f:
+    fit_results = json.load(f)
+
 #: spring problem boxplots
 
 fit_keys = [alg_desc[x] for x in fit_results]
@@ -211,7 +215,7 @@ plt.savefig("latex/images/pressure_vessel_problem_original_boxplot.png", dpi=600
 
 content = """\\begin{figure}[H]
 \\centering
-\\caption{Boxplot for Pressure Vessel Design}
+\\caption{Boxplot for Pressure Vessel Design (Original)}
 \\label{fig:pressure_vessel_design_original_boxplot}
 \\includegraphics[scale=0.5]{images/pressure_vessel_problem_original_boxplot.png}
 \\end{figure}
