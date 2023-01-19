@@ -101,45 +101,131 @@ problem_desc = {'spring_problem': 'Spring Tension Design',
 
 
 for problem in population_data:
-    for solver in population_data[problem]:
+    plt.close('all')
+    fig, axs = plt.subplots(3, 2, figsize=(10, 10))
 
-        min = population_data[problem][solver]['min']
-        max = population_data[problem][solver]['max']
-        mean = population_data[problem][solver]['avg']
+    #: EP
 
-        plt.close('all')
+    s_min = population_data[problem]['solve_ep']['min']
+    s_max = population_data[problem]['solve_ep']['max']
+    s_mean = population_data[problem]['solve_ep']['avg']
 
-        x = np.linspace(1, len(min), len(min))
+    x = np.linspace(1, len(s_min), len(s_min))
 
-        plt.plot(x, min, label="Min values")
+    axs[0][0].plot(x, s_min, label="Min Values")
+    axs[0][0].plot(x, s_mean, label="Mean Values")
+    axs[0][0].plot(x, s_max, label="Max Values")
+    axs[0][0].set_xlabel('Epochs')
+    axs[0][0].set_ylabel('Obj. Fun Values(log)')
+    axs[0][0].set_yscale('log')
+    axs[0][0].set_title(alg_desc['solve_ep'])
+    axs[0][0].legend()
+    axs[0][0].grid(True)
 
-        plt.plot(x, mean, label="Mean values")
+    #: ES
 
-        plt.plot(x, max, label="Max values")
+    s_min = population_data[problem]['solve_es']['min']
+    s_max = population_data[problem]['solve_es']['max']
+    s_mean = population_data[problem]['solve_es']['avg']
 
-        plt.yscale('log')
+    x = np.linspace(1, len(s_min), len(s_min))
 
-        plt.title(alg_desc[solver] + " - " + problem_desc[problem])
+    axs[0][1].plot(x, s_min, label="Min Values")
+    axs[0][1].plot(x, s_mean, label="Mean Values")
+    axs[0][1].plot(x, s_max, label="Max Values")
+    axs[0][1].set_xlabel('Epochs')
+    axs[0][1].set_ylabel('Obj. Fun Values(log)')
+    axs[0][1].set_yscale('log')
+    axs[0][1].set_title(alg_desc['solve_es'])
+    axs[0][1].legend()
+    axs[0][1].grid(True)
 
-        plt.xlabel("Epochs")
+    #: GA
 
-        plt.ylabel("Obj. Fun Values(log)")
+    s_min = population_data[problem]['solve_ga']['min']
+    s_max = population_data[problem]['solve_ga']['max']
+    s_mean = population_data[problem]['solve_ga']['avg']
 
-        plt.legend()
+    x = np.linspace(1, len(s_min), len(s_min))
 
-        plt.grid()
+    axs[1][0].plot(x, s_min, label="Min Values")
+    axs[1][0].plot(x, s_mean, label="Mean Values")
+    axs[1][0].plot(x, s_max, label="Max Values")
+    axs[1][0].set_xlabel('Epochs')
+    axs[1][0].set_ylabel('Obj. Fun Values(log)')
+    axs[1][0].set_yscale('log')
+    axs[1][0].set_title(alg_desc['solve_ga'])
+    axs[1][0].legend()
+    axs[1][0].grid(True)
 
-        plt.savefig("latex/images/" + problem + "_" + solver + ".png", dpi=600)
+    #: BeesA
 
-        content = """\\begin{figure}[H]
-        \\centering
-        \\caption{Convergence lines for """ + alg_desc[solver] + " - " + problem_desc[problem] + """}
-        \\label{fig:""" + problem + "_" + solver + """}
-        \\includegraphics[scale=0.5]{images/""" + problem + "_" + solver +  """.png}
-        \\end{figure}
-        """
-        with open("latex/includes/" + problem + "_" + solver + ".tex", "w") as f:
-            f.write(content)
+    s_min = population_data[problem]['solve_beesa']['min']
+    s_max = population_data[problem]['solve_beesa']['max']
+    s_mean = population_data[problem]['solve_beesa']['avg']
+
+    x = np.linspace(1, len(s_min), len(s_min))
+
+    axs[1][1].plot(x, s_min, label="Min Values")
+    axs[1][1].plot(x, s_mean, label="Mean Values")
+    axs[1][1].plot(x, s_max, label="Max Values")
+    axs[1][1].set_xlabel('Epochs')
+    axs[1][1].set_ylabel('Obj. Fun Values(log)')
+    axs[1][1].set_yscale('log')
+    axs[1][1].set_title(alg_desc['solve_beesa'])
+    axs[1][1].legend()
+    axs[1][1].grid(True)
+
+    #: FFA
+
+    s_min = population_data[problem]['solve_ffa']['min']
+    s_max = population_data[problem]['solve_ffa']['max']
+    s_mean = population_data[problem]['solve_ffa']['avg']
+
+    x = np.linspace(1, len(s_min), len(s_min))
+
+    axs[2][0].plot(x, s_min, label="Min Values")
+    axs[2][0].plot(x, s_mean, label="Mean Values")
+    axs[2][0].plot(x, s_max, label="Max Values")
+    axs[2][0].set_xlabel('Epochs')
+    axs[2][0].set_ylabel('Obj. Fun Values(log)')
+    axs[2][0].set_yscale('log')
+    axs[2][0].set_title(alg_desc['solve_ffa'])
+    axs[2][0].legend()
+    axs[2][0].grid(True)
+
+    #: PSO
+
+    s_min = population_data[problem]['solve_pso']['min']
+    s_max = population_data[problem]['solve_pso']['max']
+    s_mean = population_data[problem]['solve_pso']['avg']
+
+    x = np.linspace(1, len(s_min), len(s_min))
+
+    axs[2][1].plot(x, s_min, label="Min Values")
+    axs[2][1].plot(x, s_mean, label="Mean Values")
+    axs[2][1].plot(x, s_max, label="Max Values")
+    axs[2][1].set_xlabel('Epochs')
+    axs[2][1].set_ylabel('Obj. Fun Values(log)')
+    axs[2][1].set_yscale('log')
+    axs[2][1].set_title(alg_desc['solve_pso'])
+    axs[2][1].legend()
+    axs[2][1].grid(True)
+
+
+    fig.tight_layout()
+    
+    plt.savefig("latex/images/" + problem + "_convergence.png", dpi=600)
+
+    content = """\\begin{figure}[H]
+    \\centering
+    \\caption{Convergence lines for """ + problem_desc[problem] + """}
+    \\label{fig:""" + problem + "_convergence" + """}
+    \\includegraphics[scale=0.5]{images/""" + problem + "_convergence"  +  """.png}
+    \\end{figure}
+    """
+    with open("latex/includes/" + problem + "_convergence.tex", "w") as f:
+        f.write(content)
 
 with open("results/spring_problem_fit_results.json", "r") as f:
     fit_results = json.load(f)

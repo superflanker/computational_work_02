@@ -12,36 +12,61 @@ content = ""
 
 #: header
 with open("latex/includes/header.tex", "r") as f:
-    content += f.read()
+    content += f.read() + "\n"
 
 #: spring problem
-content += "\\subsection{Spring Tension Design}\n\n"
-content += "\\label{ssubec:spring_problem}"
+content += "\\subsection{Spring Tension Design}\n"
+content += "\\label{ssubec:spring_problem}\n\n"
 
+with open("latex/includes/spring_problem.tex", "r") as f:
+    content += f.read() + "\n"
 
-content += "\\subsubsection{Evolutionary Algorithms}\n\n"
-content += "\\label{subsubsec:spring_problem_evolutionary_based}\n\n"
+with open("latex/includes/spring_problem_boxplot.tex", "r") as f:
+    content += f.read() + "\n"
 
-content += "\\subsubsection{Swarm Based Algorithms}\n\n"
-content += "\\label{subsubsec:spring_problem_swarm_based}\n\n"
+with open("latex/includes/spring_problem_convergence.tex", "r") as f:
+    content += f.read() + "\n"
 
 # pressure vessel problem
 
-content += "\\subsection{Pressure Vessel Design}\n\n"
-content += "\\label{subsec:pressure_vessel_problem}"
+content += "\\subsection{Pressure Vessel Design (Original)}\n"
+content += "\\label{subsec:pressure_vessel_problem_original}\n\n"
 
-content += "\\subsubsection{Evolutionary Algorithms}\n\n"
-content += "\\label{subsubsec:pressure_vessel_problem_evolutionary_based}\n\n"
+with open("latex/includes/pressure_vessel_problem_original.tex", "r") as f:
+    content += f.read() + "\n"
 
-content += "\\subsubsection{Swarm Based Algorithms}\n\n"
-content += "\\label{subsubsec:pressure_vessel_problem_swarm_based}\n\n"
+with open("latex/includes/pressure_vessel_problem_original_boxplot.tex", "r") as f:
+    content += f.read() + "\n"
+
+with open("latex/includes/pressure_vessel_problem_original_convergence.tex", "r") as f:
+    content += f.read() + "\n"
+
+# pressure vessel problem
+
+content += "\\subsection{Pressure Vessel Design}\n"
+content += "\\label{subsec:pressure_vessel_problem}\n\n"
+
+with open("latex/includes/pressure_vessel_problem.tex", "r") as f:
+    content += f.read() + "\n"
+
+with open("latex/includes/pressure_vessel_problem_boxplot.tex", "r") as f:
+    content += f.read() + "\n"
+
+with open("latex/includes/pressure_vessel_problem_convergence.tex", "r") as f:
+    content += f.read() + "\n"
 
 # Friedman's test
+
+content += "\\subsection{Significance Test}\n"
+content += "\\label{subsec:pressure_vessel_problem_significance_test}\n\n"
+
+with open("latex/includes/friedman_test.tex", "r") as f:
+    content += f.read() + "\n"
 
 # footer
 
 with open("latex/includes/footer.tex", "r") as f:
-    content += f.read()
+    content += f.read() + "\n"
 
 with open("latex/article.tex", "w") as f:
     f.write(content)
