@@ -111,13 +111,13 @@ for problem in population_data:
 
         x = np.linspace(1, len(min), len(min))
 
-        plt.plot(x, np.log(min), label="Min values")
+        plt.plot(x, min, label="Min values")
 
-        plt.plot(x, np.log(mean), label="Mean values")
+        plt.plot(x, mean, label="Mean values")
 
-        plt.plot(x, np.log(max), label="Max values")
+        plt.plot(x, max, label="Max values")
 
-        #: plt.yscale('log')
+        plt.yscale('log')
 
         plt.title(alg_desc[solver] + " - " + problem_desc[problem])
 
