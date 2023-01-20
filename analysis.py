@@ -31,10 +31,10 @@ def fit_results_cleanup(fit_results):
     :param fit_results: raw results
     :return: cleaned results
     """
-    new_fit_results = list()
+    new_fx = list()
     for node in fit_results:
-        new_fit_results.append(node[1])
-    return new_fit_results
+        new_fx.append(node[1])
+    return new_fx
 
 
 def population_cleanup(population):
@@ -139,27 +139,43 @@ def ordinary_statistics(fit_results):
     return stats
 
 
+
 # collecting results
 with open("results/best_fits.json", "r") as f:
     best_fits = json.load(f)
+
+with open("results/best_fits_points.json", "r") as f:
+    best_fits_points = json.load(f)
 
 with open("results/fit_results.json", "r") as f:
     fit_results = json.load(f)
 
 best_fits_history = dict()
 
+joined_best_fits = dict()
+
 for problem in problem_desc:
     best_fits_history[problem] = dict()
+    joined_best_fits[problem] = list()
     for solver in alg_desc:
+        # join best fits
+        best_fits_point = best_fits_points[problem][solver]
+        best_fits_fx = best_fits[problem][solver]
+        desc = alg_desc[solver]
+        best_fits_point = [desc] + best_fits_point + [best_fits_fx]
+        joined_best_fits[problem].append(best_fits_point)
+        # retrieving model
         filename = "results/best_" + problem + "_" + solver
         model = io.load_model(filename)
         best_fits_history[problem][solver] = model
 
 stats_s = ordinary_statistics(fit_results)
 
+with open("results/joined_best_fits.json", "w") as f:
+    json.dump(joined_best_fits, f, indent=4)
+
 with open("results/stats.json", "w") as f:
     json.dump(stats_s, f, indent=4)
-
 
 population_stats = dict()
 

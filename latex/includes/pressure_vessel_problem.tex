@@ -1,8 +1,11 @@
-\begin{table}
+Another view of the solutions are presented in Table~\ref{function_values:pressure_vessel_problem}, where
+are summarized the statistics of all 100 possible solutions for different startpoints.
+
+\begin{table}[H]
 \centering
 \caption{Statistical Information about function values for Pressure Vessel Design}
-\label{function_values:pressure_vessel_problem}
 \resizebox{\columnwidth}{!}{%
+\label{function_values:pressure_vessel_problem}
 \begin{tabular}{lrrrrr}
 \toprule
 Algorithm &         Min F &        Mean F &      Median F &         Max F &   StdDev F \\
@@ -14,6 +17,10 @@ Algorithm &         Min F &        Mean F &      Median F &         Max F &   St
       FFA & 5534.57401617 & 5534.58849395 & 5534.58435493 & 5534.63296149 & 0.01341777 \\
       PSO & 5534.57345480 & 5534.57381593 & 5534.57355270 & 5534.57625290 & 0.00053848 \\
 \bottomrule
-\end{tabular}
-}
+\end{tabular}}
 \end{table}
+
+It is hard to see any statistical  difference looking at any value in the table except standartd deviation.
+GA and BeesA seems to have the worst solutions, and EP, FFA and PSO seems to have a well defined behavior
+since they have the lowest standard deviations, that is, all the solutions don't spread too much from each
+other.

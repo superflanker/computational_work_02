@@ -135,6 +135,25 @@ best_fits = {"spring_problem": {"solve_ep": 1e6,
                                                   "solve_ffa": 1e6,
                                                   "solve_pso": 1e6}}
 
+best_fits_points =  {"spring_problem": {"solve_ep": 1e6,
+                                        "solve_es": 1e6,
+                                        "solve_ga": 1e6,
+                                        "solve_beesa": 1e6,
+                                        "solve_ffa": 1e6,
+                                        "solve_pso": 1e6},
+                     "pressure_vessel_problem": {"solve_ep": 1e6,
+                                                 "solve_es": 1e6,
+                                                 "solve_ga": 1e6,
+                                                 "solve_beesa": 1e6,
+                                                 "solve_ffa": 1e6,
+                                                 "solve_pso": 1e6},
+                     "pressure_vessel_problem_original": {"solve_ep": 1e6,
+                                                          "solve_es": 1e6,
+                                                          "solve_ga": 1e6,
+                                                          "solve_beesa": 1e6,
+                                                          "solve_ffa": 1e6,
+                                                          "solve_pso": 1e6}}
+
 
 best_fits_history = {"spring_problem": {"solve_ep": [],
                                         "solve_es": [],
@@ -201,8 +220,13 @@ for seed in range(1, runs + 1):
             fit_results[problem][solver_name].append([best_position.tolist(),
                                                       best_fitness])
             if best_fitness <= best_fits[problem][solver_name]:
+                best_fits_points[problem][solver_name] = best_position.tolist()
                 best_fits[problem][solver_name] = float(best_fitness)
                 best_fits_history[problem][solver_name] = model
+
+# saving best fits points
+with open("results/best_fits_points.json", "w") as f:
+    json.dump(best_fits_points, f, indent=4)
 
 # saving best fits
 with open("results/best_fits.json", "w") as f:

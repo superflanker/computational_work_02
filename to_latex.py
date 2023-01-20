@@ -14,6 +14,32 @@ import matplotlib.pyplot as plt
 import json
 
 
+def latex_best_fits_table(results,
+                          desc,
+                          problem):
+
+    column_names = ["Algorithm"]
+
+    var_num = len(results[0]) - 2
+
+    for i in range(1, var_num + 1):
+        var_col_name = "x_{:d}".format(i)
+        column_names.append('$' + var_col_name + '$')
+
+    column_names.append('$f_x$')
+
+    df = pd.DataFrame(results,
+                      columns=column_names)
+
+    content = df.to_latex(index=False,
+                          float_format="%.8f",
+                          escape=False,
+                          label="best_fits:{:s}".format(problem),
+                          caption="Best Fits for {:s}".format(desc))
+
+    return content
+
+
 def latex_results_table(results,
                         desc,
                         problem):
@@ -65,6 +91,9 @@ def latex_friedman_table(results):
 with open("results/stats.json", "r") as f:
     data = json.load(f)
 
+with open("results/joined_best_fits.json", "r") as f:
+    best_fits = json.load(f)
+
 for problem in data:
 
     desc = data[problem]['desc']
@@ -77,6 +106,16 @@ for problem in data:
 
     with open("latex/includes/{:s}.tex".format(problem), "w") as f:
         f.write(content)
+
+    results = best_fits[problem]
+
+    content = latex_best_fits_table(results,
+                                    desc,
+                                    problem)
+
+    with open("latex/includes/{:s}_best_fits.tex".format(problem), "w") as f:
+        f.write(content)
+
 
 content = latex_friedman_table(data)
 
@@ -221,7 +260,7 @@ for problem in population_data:
     \\centering
     \\caption{Convergence lines for """ + problem_desc[problem] + """}
     \\label{fig:""" + problem + "_convergence" + """}
-    \\includegraphics[scale=0.5]{images/""" + problem + "_convergence"  +  """.png}
+    \\includegraphics[width=0.4 \\textwidth]{images/""" + problem + "_convergence"  +  """.png}
     \\end{figure}
     """
     with open("latex/includes/" + problem + "_convergence.tex", "w") as f:

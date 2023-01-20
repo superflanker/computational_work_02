@@ -14,23 +14,13 @@ content = ""
 with open("latex/includes/header.tex", "r") as f:
     content += f.read() + "\n"
 
-#: spring problem
-content += "\\subsection{Spring Tension Design}\n"
-content += "\\label{ssubec:spring_problem}\n\n"
-
-with open("latex/includes/spring_problem.tex", "r") as f:
-    content += f.read() + "\n"
-
-with open("latex/includes/spring_problem_boxplot.tex", "r") as f:
-    content += f.read() + "\n"
-
-with open("latex/includes/spring_problem_convergence.tex", "r") as f:
-    content += f.read() + "\n"
-
 # pressure vessel problem
 
 content += "\\subsection{Pressure Vessel Design (Original)}\n"
 content += "\\label{subsec:pressure_vessel_problem_original}\n\n"
+
+with open("latex/includes/pressure_vessel_problem_original_best_fits.tex", "r") as f:
+    content += f.read() + "\n"
 
 with open("latex/includes/pressure_vessel_problem_original.tex", "r") as f:
     content += f.read() + "\n"
@@ -46,6 +36,9 @@ with open("latex/includes/pressure_vessel_problem_original_convergence.tex", "r"
 content += "\\subsection{Pressure Vessel Design}\n"
 content += "\\label{subsec:pressure_vessel_problem}\n\n"
 
+with open("latex/includes/pressure_vessel_problem_best_fits.tex", "r") as f:
+    content += f.read() + "\n"
+
 with open("latex/includes/pressure_vessel_problem.tex", "r") as f:
     content += f.read() + "\n"
 
@@ -53,6 +46,22 @@ with open("latex/includes/pressure_vessel_problem_boxplot.tex", "r") as f:
     content += f.read() + "\n"
 
 with open("latex/includes/pressure_vessel_problem_convergence.tex", "r") as f:
+    content += f.read() + "\n"
+
+#: spring problem
+content += "\\subsection{Spring Tension Design}\n"
+content += "\\label{ssubec:spring_problem}\n\n"
+
+with open("latex/includes/spring_problem_best_fits.tex", "r") as f:
+    content += f.read() + "\n"
+
+with open("latex/includes/spring_problem.tex", "r") as f:
+    content += f.read() + "\n"
+
+with open("latex/includes/spring_problem_boxplot.tex", "r") as f:
+    content += f.read() + "\n"
+
+with open("latex/includes/spring_problem_convergence.tex", "r") as f:
     content += f.read() + "\n"
 
 # Friedman's test

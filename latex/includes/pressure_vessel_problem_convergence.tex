@@ -1,7 +1,14 @@
 
+Figure~\ref{fig:pressure_vessel_problem_convergence} shows the
+function maximum, minimum and mean function from algorithm's evolution:
+
 \begin{figure}[H]
 \centering
 \caption{Convergence lines for Pressure Vessel Design}
 \label{fig:pressure_vessel_problem_convergence}
 \includegraphics[width=0.4 \textwidth]{images/pressure_vessel_problem_convergence.png}
 \end{figure}
+
+EP, ES and PSO quickly converges all the solution once it find a viable minimum, whe GA, BeesA and FFA
+maintain exloration and explotation for all the epochs. From Table~\ref{function_values:pressure_vessel_problem}
+, PSO has the best solution stability for our proud-lame-homemade custom bounding problem.
