@@ -1,0 +1,27 @@
+In this section are presented the results for the original variable boundings of Pressure Vessel Design,
+as exposed in Section~\ref{subsubsec:methodology-pressure-vessel-design}.
+
+The best results for all algorithms are presented in Table~\ref{best_fits:pressure_vessel_problem_original}:
+
+\begin{table}[H]
+\centering
+\caption{Best Fits for Pressure Vessel Design (Original)}
+\label{best_fits:pressure_vessel_problem_original}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrrr}
+\toprule
+Algorithm &      $x_1$ &      $x_2$ &        $x_3$ &        $x_4$ &         $f_x$ \\
+\midrule
+       EP & 0.00000000 & 0.00000000 &  40.32041055 & 200.00000000 &    0.08150806 \\
+       ES & 0.00000000 & 0.00000000 &  40.32554414 & 200.00000000 &    0.08161190 \\
+       GA & 0.00337818 & 0.00106498 &  46.44471109 & 129.50295637 &   17.06920868 \\
+    BeesA & 0.07617198 & 0.07091908 & 104.75191725 &  44.23570263 & 2393.70106213 \\
+      FFA & 0.00000000 & 0.00000000 &  40.39658670 & 200.00000000 &    0.08306113 \\
+      PSO & 0.00000000 & 0.00000000 &  40.31961791 & 200.00000000 &    0.08149204 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+While EP, ES, FFA and PSO seems to give similar results, it is noticeable that the cost function
+gave some discrepant results for GA and BeesA.
+

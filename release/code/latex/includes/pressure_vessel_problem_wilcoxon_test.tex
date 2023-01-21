@@ -1,0 +1,29 @@
+
+The Table~\ref{wilcoxon_test:pressure_vessel_problem} gives the Wilcoxon test results
+for \textit{Pressure Vessel Design} using the proud-and-lame-homemade variables bounding
+as exposed in Section~\ref{subsubsec:methodology-pressure-vessel-design}.
+
+
+\begin{table}[H]
+\centering
+\caption{Significance Test Using Wilcoxon Test for Pressure Vessel Design}
+\label{wilcoxon_test:pressure_vessel_problem}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+  --- & EP & ES & GA & BeesA & FFA & PSO \\
+\midrule
+   EP & 0.0 & 9.04e-18 & 3.90e-18 & 6.12e-18 & 8.79e-12 & 4.40e-18 \\
+   ES & 9.04e-18 & 0.0 & 1.71e-14 & 1.64e-13 & 4.81e-18 & 3.90e-18 \\
+   GA & 3.90e-18 & 1.71e-14 & 0.0 & 0.38 & 3.90e-18 & 3.90e-18 \\
+BeesA & 6.12e-18 & 1.64e-13 & 0.38 & 0.0 & 4.30e-18 & 3.90e-18 \\
+  FFA & 8.79e-12 & 4.81e-18 & 3.90e-18 & 4.30e-18 & 0.0 & 4.02e-18 \\
+  PSO & 4.40e-18 & 3.90e-18 & 3.90e-18 & 3.90e-18 & 4.02e-18 & 0.0 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+EP, ES, FAA and PSO appears to have the same distributions.
+However, BeesA and GA appears to have different distributions.
+This fact confirms the results found in Table~\ref{function_values:pressure_vessel_problem}.
+
